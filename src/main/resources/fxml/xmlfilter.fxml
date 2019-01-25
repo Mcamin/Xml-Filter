@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+      minWidth="-Infinity" prefHeight="294.0" prefWidth="506.0" xmlns="http://javafx.com/javafx/10.0.1"
+      fx:controller="org.xmlfilter.FXMLController">
+    <children>
+        <TabPane fx:id="TabPane" prefHeight="298.0" prefWidth="506.0" tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <Tab fx:id="XmlFilterTab" text="Xml Filter">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="218.0" prefWidth="506.0">
+                            <children>
+                                <GridPane layoutX="251.0" layoutY="93.0" prefHeight="85.0" prefWidth="232.0">
+                                    <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.0" minWidth="10.0"
+                                                           prefWidth="34.0"/>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="204.0" minWidth="10.0"
+                                                           prefWidth="198.0"/>
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints maxHeight="43.5" minHeight="10.0"
+                                                        prefHeight="35.600006103515625" vgrow="SOMETIMES"/>
+                                        <RowConstraints maxHeight="25.5" minHeight="5.5" prefHeight="16.399993896484375"
+                                                        vgrow="SOMETIMES"/>
+                                        <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="33.5"
+                                                        valignment="TOP" vgrow="SOMETIMES"/>
+                                    </rowConstraints>
+                                    <children>
+                                        <Label prefHeight="17.0" prefWidth="42.0" text="To:">
+                                            <font>
+                                                <Font size="14.0"/>
+                                            </font>
+                                        </Label>
+                                        <JFXDatePicker fx:id="toDate" defaultColor="#ababab" editable="false"
+                                                       promptText="Choose Date" GridPane.columnIndex="1"/>
+                                        <JFXTimePicker fx:id="toTime" defaultColor="#ababab" promptText="Choose Time"
+                                                       GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                                    </children>
+                                </GridPane>
+                                <GridPane layoutX="319.0" layoutY="221.0" prefHeight="30.0" prefWidth="185.0">
+                                    <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                    </rowConstraints>
+                                    <children>
+                                        <JFXButton fx:id="saveButton" onAction="#handleSaveButton" prefHeight="32.0"
+                                                   prefWidth="82.0" style="-fx-background-color: #afafaf;" text="Save"
+                                                   textFill="WHITE"/>
+                                        <JFXButton fx:id="cancelButton" onAction="#handlecancelButton" prefHeight="32.0"
+                                                   prefWidth="82.0" style="-fx-background-color: #afafaf;" text="Cancel"
+                                                   textFill="WHITE" GridPane.columnIndex="1"/>
+                                    </children>
+                                </GridPane>
+                                <HBox alignment="CENTER_LEFT" layoutX="22.0" layoutY="48.0" prefHeight="46.0"
+                                      prefWidth="483.0" spacing="20.0">
+                                    <children>
+                                        <Label prefHeight="20.0" prefWidth="67.0" text="Options:">
+                                            <font>
+                                                <Font size="14.0"/>
+                                            </font>
+                                        </Label>
+                                        <JFXRadioButton fx:id="range" focusTraversable="false"
+                                                        onAction="#handlerangeSelected" prefHeight="17.0"
+                                                        prefWidth="77.0" selected="true" text="Range">
+                                            <toggleGroup>
+                                                <ToggleGroup fx:id="group"/>
+                                            </toggleGroup>
+                                        </JFXRadioButton>
+                                        <JFXRadioButton fx:id="after" onAction="#handleafterSelected" prefHeight="17.0"
+                                                        prefWidth="71.0" text="After" toggleGroup="$group"/>
+                                        <JFXRadioButton fx:id="before" onAction="#handlebeforeSelected"
+                                                        prefHeight="17.0" prefWidth="81.0" text="Before"
+                                                        toggleGroup="$group"/>
+                                        <JFXRadioButton fx:id="exact" onAction="#handleexactSelected" prefHeight="17.0"
+                                                        prefWidth="73.0" text="Exact" toggleGroup="$group"/>
+                                    </children>
+                                </HBox>
+                                <GridPane layoutX="22.0" layoutY="14.0" prefHeight="30.0" prefWidth="457.0">
+                                    <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.5" minWidth="10.0"
+                                                           prefWidth="41.0"/>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="369.0" minWidth="10.0"
+                                                           prefWidth="300.5"/>
+                                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="179.5"
+                                                           minWidth="0.0" prefWidth="130.5"/>
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                    </rowConstraints>
+                                    <children>
+                                        <Label prefHeight="20.0" prefWidth="50.0" text="File:">
+                                            <font>
+                                                <Font size="14.0"/>
+                                            </font>
+                                        </Label>
+                                        <JFXButton fx:id="chooseButton" onAction="#handlechooseButton" prefHeight="32.0"
+                                                   prefWidth="82.0" style="-fx-background-color: #afafaf;" text="Choose"
+                                                   textFill="WHITE" GridPane.columnIndex="2"/>
+                                        <TextField fx:id="filepath" prefHeight="26.0" prefWidth="325.0"
+                                                   GridPane.columnIndex="1"/>
+                                    </children>
+                                </GridPane>
+                                <GridPane layoutX="21.0" layoutY="93.0" prefHeight="85.0" prefWidth="232.0">
+                                    <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.0" minWidth="10.0"
+                                                           prefWidth="45.5"/>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="191.0" minWidth="10.0"
+                                                           prefWidth="186.5"/>
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints maxHeight="43.5" minHeight="10.0" prefHeight="40.0"
+                                                        vgrow="SOMETIMES"/>
+                                        <RowConstraints maxHeight="25.5" minHeight="5.5" prefHeight="12.0"
+                                                        vgrow="SOMETIMES"/>
+                                        <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="33.5"
+                                                        valignment="TOP" vgrow="SOMETIMES"/>
+                                    </rowConstraints>
+                                    <children>
+                                        <Label prefHeight="17.0" prefWidth="42.0" text="From:">
+                                            <font>
+                                                <Font size="14.0"/>
+                                            </font>
+                                        </Label>
+                                        <JFXDatePicker fx:id="fromDate" defaultColor="#ababab" promptText="Choose Date"
+                                                       GridPane.columnIndex="1"/>
+                                        <JFXTimePicker fx:id="fromTime" defaultColor="#ababab" promptText="Choose Time"
+                                                       GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                                    </children>
+                                </GridPane>
+                                <Text fill="RED" layoutX="22.0" layoutY="203.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                                      text="Warning: Please be aware of the Enterprise Server time difference."
+                                      wrappingWidth="185.00000218860805"/>
+                                <Text fill="RED" layoutX="22.0" layoutY="235.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                                      text="Local time CEST: -2 hours; Local time CET: -1 hour."
+                                      wrappingWidth="161.9999995045364"/>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab fx:id="idChTab" text="ID Changer">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="218.0" prefWidth="506.0">
+                            <children>
+                                <GridPane layoutX="319.0" layoutY="221.0" prefHeight="30.0" prefWidth="185.0">
+                                    <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                    </rowConstraints>
+                                    <children>
+                                        <JFXButton fx:id="startButton" onAction="#handleStartButton" prefHeight="32.0"
+                                                   prefWidth="82.0" style="-fx-background-color: #afafaf;" text="Start"
+                                                   textFill="WHITE"/>
+                                        <JFXButton fx:id="cancelBtn" onAction="#handlecancelButton" prefHeight="32.0"
+                                                   prefWidth="82.0" style="-fx-background-color: #afafaf;" text="Cancel"
+                                                   textFill="WHITE" GridPane.columnIndex="1"/>
+                                    </children>
+                                </GridPane>
+                                <GridPane layoutX="24.0" layoutY="40.0" prefHeight="30.0" prefWidth="457.0">
+                                    <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.5" minWidth="10.0"
+                                                           prefWidth="41.0"/>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="369.0" minWidth="10.0"
+                                                           prefWidth="300.5"/>
+                                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="179.5"
+                                                           minWidth="0.0" prefWidth="130.5"/>
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                    </rowConstraints>
+                                    <children>
+                                        <JFXButton fx:id="chooseButtonSrc" onAction="#handlechooseButtonSrc"
+                                                   prefHeight="32.0" prefWidth="82.0"
+                                                   style="-fx-background-color: #afafaf;" text="Choose" textFill="WHITE"
+                                                   GridPane.columnIndex="2"/>
+                                        <TextField fx:id="filepathSrc" prefHeight="26.0" prefWidth="325.0"
+                                                   GridPane.columnIndex="1"/>
+                                    </children>
+                                </GridPane>
+                                <GridPane layoutX="24.0" layoutY="102.0" prefHeight="30.0" prefWidth="457.0">
+                                    <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.5" minWidth="10.0"
+                                                           prefWidth="41.0"/>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="369.0" minWidth="10.0"
+                                                           prefWidth="300.5"/>
+                                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="179.5"
+                                                           minWidth="0.0" prefWidth="130.5"/>
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                    </rowConstraints>
+                                    <children>
+                                        <JFXButton fx:id="chooseButtonComp" onAction="#handlechooseButtonComp"
+                                                   prefHeight="32.0" prefWidth="82.0"
+                                                   style="-fx-background-color: #afafaf;" text="Choose" textFill="WHITE"
+                                                   GridPane.columnIndex="2"/>
+                                        <TextField fx:id="filepathComp" prefHeight="26.0" prefWidth="325.0"
+                                                   GridPane.columnIndex="1"/>
+                                    </children>
+                                </GridPane>
+                                <Label layoutX="20.0" layoutY="143.0" prefHeight="20.0" prefWidth="120.0"
+                                       text="Destination File:">
+                                    <font>
+                                        <Font size="14.0"/>
+                                    </font>
+                                </Label>
+                                <Label layoutX="20.0" layoutY="16.0" prefHeight="20.0" prefWidth="120.0"
+                                       text="Source File:">
+                                    <font>
+                                        <Font size="14.0"/>
+                                    </font>
+                                </Label>
+                                <GridPane layoutX="24.0" layoutY="168.0" prefHeight="30.0" prefWidth="457.0">
+                                    <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.5" minWidth="10.0"
+                                                           prefWidth="41.0"/>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="369.0" minWidth="10.0"
+                                                           prefWidth="300.5"/>
+                                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="179.5"
+                                                           minWidth="0.0" prefWidth="130.5"/>
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                    </rowConstraints>
+                                    <children>
+                                        <JFXButton fx:id="chooseButtonDest" onAction="#handlechooseButtonDest"
+                                                   prefHeight="32.0" prefWidth="82.0"
+                                                   style="-fx-background-color: #afafaf;" text="Choose" textFill="WHITE"
+                                                   GridPane.columnIndex="2"/>
+                                        <TextField fx:id="filepathDest" prefHeight="26.0" prefWidth="325.0"
+                                                   GridPane.columnIndex="1"/>
+                                    </children>
+                                </GridPane>
+                                <Label layoutX="20.0" layoutY="78.0" prefHeight="20.0" prefWidth="151.0"
+                                       text="File To Compare With:">
+                                    <font>
+                                        <Font size="14.0"/>
+                                    </font>
+                                </Label>
+                                <CheckBox fx:id="safeMode" layoutX="24.0" layoutY="228.0" mnemonicParsing="false"
+                                          prefHeight="17.0" prefWidth="85.0" selected="true" text="Safe Mode"
+                                          onAction="#handleSafeModeSelected"/>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+   </children>
+</VBox>
