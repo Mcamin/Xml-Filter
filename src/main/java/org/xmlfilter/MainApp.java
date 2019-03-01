@@ -15,7 +15,7 @@ public class MainApp extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/xmlfilter.fxml"));
         stage.setTitle("  Stringdb Tool");
-        stage.setScene(new Scene(root, 520, 300));
+        stage.setScene(new Scene(root, 506, 320));
         stage.show();
         stage.setResizable(false);
         stage.getIcons().add(new Image(MainApp.class.getResourceAsStream("/img/icon.png")));

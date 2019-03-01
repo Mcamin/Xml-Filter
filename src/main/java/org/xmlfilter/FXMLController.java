@@ -1,10 +1,7 @@
 package org.xmlfilter;
 
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDatePicker;
-import com.jfoenix.controls.JFXRadioButton;
-import com.jfoenix.controls.JFXTimePicker;
+import com.jfoenix.controls.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -63,6 +60,8 @@ public class FXMLController implements Initializable {
     private JFXRadioButton exact;
     @FXML
     private JFXRadioButton range;
+    @FXML
+    private JFXCheckBox tsState;
 
     /*ID Changer CONTROLLER*/
     @FXML
@@ -207,7 +206,7 @@ public class FXMLController implements Initializable {
         LocalTime totime = this.toTime.getValue();
         LocalDate fromdate = this.fromDate.getValue();
         LocalDate todate = this.toDate.getValue();
-
+        boolean translationState =tsState.isSelected();
         //Handle Range Options
         if (group.getSelectedToggle().equals(range)) {
 
@@ -215,7 +214,7 @@ public class FXMLController implements Initializable {
                 from = inputformatter.parse(fromdate.toString() + " " + fromtime.toString());
                 to = inputformatter.parse(todate.toString() + " " + totime.toString());
                 Document doc = utils.loadDocument(p);
-                utils.savedocument(p, utils.FilterStrings(doc, from, to, type));
+                utils.savedocument(p, utils.FilterStrings(doc, from, to, type,translationState));
                 utils.triggerAlert("Info","Done!");
 
             } catch (NullPointerException e) {
@@ -230,7 +229,7 @@ public class FXMLController implements Initializable {
             try {
                 from = inputformatter.parse(fromdate.toString() + " " + fromtime.toString());
                 Document doc = utils.loadDocument(p);
-                utils.savedocument(p, utils.FilterStrings(doc, from, to, type));
+                utils.savedocument(p, utils.FilterStrings(doc, from, to, type,translationState));
                 utils.triggerAlert("Info","Done!");
             } catch (NullPointerException e) {
                 utils.HandleExceptions(e, "Choose date and time");
@@ -277,6 +276,9 @@ public class FXMLController implements Initializable {
            //Disable chooser Destination
             this.chooseButtonDest.setDisable(true);
             this.filepathDest.setDisable(true);
+            if(this.chooseButtonComp.isDisabled() && this.filepathComp.isDisabled())
+            {this.chooseButtonComp.setDisable(false);
+              this.filepathComp.setDisable(false);}
         } else {
             //Enable chooser Destination
             this.safeMode.setDisable(false);
@@ -325,10 +327,21 @@ public class FXMLController implements Initializable {
         String comp = filepathComp.getText();
 
         try {
-            Document srcDoc = utils.loadDocument(src);
-            Document destDoc = utils.loadDocument(dest);
-            Document destComp = utils.loadDocument(comp);
-            utils.savedocument(dest, utils.changeId(srcDoc, destDoc, destComp,safeMode.isSelected()));
+
+            if(this.compareOnly.isSelected()){
+                Document srcDoc = utils.loadDocument(src);
+                Document destComp = utils.loadDocument(comp);
+                srcDoc.getDocumentElement().normalize();
+                destComp.getDocumentElement().normalize();
+
+                NodeList srcnList = srcDoc.getElementsByTagName("string");
+                NodeList compList = destComp.getElementsByTagName("string");
+                DOM.getUniqueStrings(srcnList);
+                //TODO: Call the compare file that creates the comparison file
+            }else{ Document srcDoc = utils.loadDocument(src);
+                   Document destDoc = utils.loadDocument(dest);
+                  Document destComp = utils.loadDocument(comp);
+            utils.savedocument(dest, utils.changeId(srcDoc, destDoc, destComp,safeMode.isSelected()));}
         } catch (NullPointerException e) {
             utils.HandleExceptions(e, "One of the Files could not be found");
         } catch (Exception e) {

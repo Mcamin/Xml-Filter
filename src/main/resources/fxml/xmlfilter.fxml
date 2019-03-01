@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXRadioButton?>
 <?import com.jfoenix.controls.JFXTimePicker?>
@@ -19,9 +20,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="294.0" prefWidth="506.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.xmlfilter.FXMLController">
+<VBox fillWidth="false" maxHeight="320.0" maxWidth="506.0" minHeight="320.0" minWidth="506.0" prefHeight="320.0" prefWidth="506.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.xmlfilter.FXMLController">
     <children>
-        <TabPane fx:id="TabPane" prefHeight="298.0" prefWidth="506.0" tabClosingPolicy="UNAVAILABLE">
+        <TabPane fx:id="TabPane" prefHeight="320.0" prefWidth="506.0" tabClosingPolicy="UNAVAILABLE">
             <tabs>
                 <Tab fx:id="XmlFilterTab" text="Xml Filter">
                     <content>
@@ -47,7 +48,7 @@
                                         <JFXTimePicker fx:id="toTime" defaultColor="#ababab" promptText="Choose Time" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                     </children>
                                 </GridPane>
-                                <GridPane layoutX="319.0" layoutY="221.0" prefHeight="30.0" prefWidth="185.0">
+                                <GridPane layoutX="319.0" layoutY="245.0" prefHeight="30.0" prefWidth="185.0">
                                     <columnConstraints>
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -116,8 +117,9 @@
                                         <JFXTimePicker fx:id="fromTime" defaultColor="#ababab" promptText="Choose Time" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                     </children>
                                 </GridPane>
-                                <Text fill="RED" layoutX="22.0" layoutY="203.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Warning: Please be aware of the Enterprise Server time difference." wrappingWidth="185.00000218860805" />
-                                <Text fill="RED" layoutX="22.0" layoutY="235.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Local time CEST: -2 hours; Local time CET: -1 hour." wrappingWidth="161.9999995045364" />
+                                <Text fill="RED" layoutX="22.0" layoutY="225.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Warning: Please be aware of the Enterprise Server time difference." wrappingWidth="185.00000218860805" />
+                                <Text fill="RED" layoutX="22.0" layoutY="257.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Local time CEST: -2 hours; Local time CET: -1 hour." wrappingWidth="161.9999995045364" />
+                        <JFXCheckBox fx:id="tsState" layoutX="285.0" layoutY="194.0" text="Change Translation State" />
                             </children>
                         </AnchorPane>
                     </content>
@@ -163,8 +165,8 @@
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     </rowConstraints>
                                     <children>
-                                        <JFXButton fx:id="chooseButtonComp" onAction="#handlechooseButtonComp" prefHeight="32.0" prefWidth="82.0" style="-fx-background-color: #afafaf;" text="Choose" textFill="WHITE" GridPane.columnIndex="2" />
-                                        <TextField fx:id="filepathComp" prefHeight="26.0" prefWidth="325.0" GridPane.columnIndex="1" />
+                                        <JFXButton fx:id="chooseButtonComp" disable="true" onAction="#handlechooseButtonComp" prefHeight="32.0" prefWidth="82.0" style="-fx-background-color: #afafaf;" text="Choose" textFill="WHITE" GridPane.columnIndex="2" />
+                                        <TextField fx:id="filepathComp" disable="true" prefHeight="26.0" prefWidth="325.0" GridPane.columnIndex="1" />
                                     </children>
                                 </GridPane>
                                 <Label layoutX="20.0" layoutY="143.0" prefHeight="20.0" prefWidth="120.0" text="Destination File:">
@@ -196,7 +198,7 @@
                                         <Font size="14.0" />
                                     </font>
                                 </Label>
-                                <CheckBox fx:id="safeMode" layoutX="24.0" layoutY="228.0" mnemonicParsing="false" onAction="#handleSafeModeSelected" prefHeight="17.0" prefWidth="85.0" selected="true" text="Safe Mode" />
+                                <CheckBox fx:id="safeMode" layoutX="24.0" layoutY="228.0" mnemonicParsing="false" onAction="#handleSafeModeSelected" prefHeight="17.0" prefWidth="85.0" text="Safe Mode" />
                         <CheckBox fx:id="compareOnly" layoutX="121.0" layoutY="228.0" mnemonicParsing="false" onAction="#handleCompareOnlySelected" text="Compare Only" />
                             </children>
                         </AnchorPane>
