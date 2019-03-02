@@ -8,17 +8,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.apache.commons.io.FileUtils;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
+import org.dom4j.*;
 import org.w3c.dom.NodeList;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.File;
+
 import java.net.URL;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -101,7 +96,7 @@ public class FXMLController implements Initializable {
                     @Override
                     public void changed(ObservableValue<? extends Tab> ov, Tab idChTab, Tab XmlFilterTab) {
                         if (TabPane.getSelectionModel().getSelectedItem().getId().equals("idChTab")) {
-
+                            tsState.setSelected(false);
                             filepath.setText("");
                         } else if (TabPane.getSelectionModel().getSelectedItem().getId().equals("XmlFilterTab")) {
                             safeMode.setSelected(true);
@@ -140,6 +135,8 @@ public class FXMLController implements Initializable {
     void handlebeforeSelected(ActionEvent event) {
         type = 2;
         if (!(this.toTime.isDisable() && this.toDate.isDisable())) {
+            this.toTime.setValue(null);
+            this.toDate.setValue(null);
             this.toTime.setDisable(true);
             this.toDate.setDisable(true);
         }
@@ -153,10 +150,7 @@ public class FXMLController implements Initializable {
     @FXML
     void handleexactSelected(ActionEvent event) {
         type = 3;
-        if (!(this.toTime.isDisable() && this.toDate.isDisable())) {
-            this.toTime.setDisable(true);
-            this.toDate.setDisable(true);
-        }
+        resetTotime();
     }
 
     /**
@@ -166,12 +160,20 @@ public class FXMLController implements Initializable {
     @FXML
     void handleafterSelected(ActionEvent event) {
         type = 1;
+        resetTotime();
+    }
+
+    /**
+     * Reset the to time and date fields
+     */
+    private void resetTotime() {
         if (!(this.toTime.isDisable() && this.toDate.isDisable())) {
             this.toTime.setDisable(true);
             this.toDate.setDisable(true);
+            this.toTime.setValue(null);
+            this.toDate.setValue(null);
         }
     }
-
     /**
      * Cancel Button Function
      * @param event
@@ -200,43 +202,27 @@ public class FXMLController implements Initializable {
         //file Path
         String p = filepath.getText();
         //Date & Time
-        Date from;
+        Date from=null;
         Date to = null;
         LocalTime fromtime = this.fromTime.getValue();
         LocalTime totime = this.toTime.getValue();
         LocalDate fromdate = this.fromDate.getValue();
         LocalDate todate = this.toDate.getValue();
         boolean translationState =tsState.isSelected();
-        //Handle Range Options
-        if (group.getSelectedToggle().equals(range)) {
 
-            try {
-                from = inputformatter.parse(fromdate.toString() + " " + fromtime.toString());
-                to = inputformatter.parse(todate.toString() + " " + totime.toString());
-                Document doc = utils.loadDocument(p);
-                utils.savedocument(p, utils.FilterStrings(doc, from, to, type,translationState));
-                utils.triggerAlert("Info","Done!");
-
-            } catch (NullPointerException e) {
-                utils.HandleExceptions(e, "Choose date and time");
-            } catch (Exception e) {
-                utils.HandleExceptions(e, null);
-            }
+        try {
+            from = inputformatter.parse(fromdate.toString() + " " + fromtime.toString());
+            if (group.getSelectedToggle().equals(range)) {
+                to = inputformatter.parse(todate.toString() + " " + totime.toString());}
+        } catch (Exception e) {
+            e.printStackTrace();
+            utils.HandleExceptions(e, "Choose date and time");
         }
-        //Handle one Date options
-        else {
+            Document doc = utils.loadDocument(p);
+            utils.savedocument(p, utils.FilterStrings(doc, from, to, type,translationState));
+            utils.triggerAlert("Info","Done!");
 
-            try {
-                from = inputformatter.parse(fromdate.toString() + " " + fromtime.toString());
-                Document doc = utils.loadDocument(p);
-                utils.savedocument(p, utils.FilterStrings(doc, from, to, type,translationState));
-                utils.triggerAlert("Info","Done!");
-            } catch (NullPointerException e) {
-                utils.HandleExceptions(e, "Choose date and time");
-            } catch (Exception e) {
-                utils.HandleExceptions(e, null);
-            }
-        }
+
     }
 
 
@@ -281,6 +267,8 @@ public class FXMLController implements Initializable {
               this.filepathComp.setDisable(false);}
         } else {
             //Enable chooser Destination
+            this.chooseButtonComp.setDisable(true);
+            this.filepathComp.setDisable(true);
             this.safeMode.setDisable(false);
             this.chooseButtonDest.setDisable(false);
             this.filepathDest.setDisable(false);
@@ -327,23 +315,23 @@ public class FXMLController implements Initializable {
         String comp = filepathComp.getText();
 
         try {
-
+            Document srcDoc=null;
+            Document destDoc=null;
+            Document destComp=null;
             if(this.compareOnly.isSelected()){
-                Document srcDoc = utils.loadDocument(src);
-                Document destComp = utils.loadDocument(comp);
-                srcDoc.getDocumentElement().normalize();
-                destComp.getDocumentElement().normalize();
+                 srcDoc = utils.loadDocument(src);
+                destComp = utils.loadDocument(comp);
+                //TODO:call the compare function to generate the excel file
+            }else if(this.safeMode.isSelected()){
+                 srcDoc = utils.loadDocument(src);
+                 destDoc = utils.loadDocument(dest);
+                 destComp = utils.loadDocument(comp);
+            }else
+                {  srcDoc = utils.loadDocument(src);
+                    destDoc = utils.loadDocument(dest);
+                }
 
-                NodeList srcnList = srcDoc.getElementsByTagName("string");
-                NodeList compList = destComp.getElementsByTagName("string");
-                DOM.getUniqueStrings(srcnList);
-                //TODO: Call the compare file that creates the comparison file
-            }else{ Document srcDoc = utils.loadDocument(src);
-                   Document destDoc = utils.loadDocument(dest);
-                  Document destComp = utils.loadDocument(comp);
-            utils.savedocument(dest, utils.changeId(srcDoc, destDoc, destComp,safeMode.isSelected()));}
-        } catch (NullPointerException e) {
-            utils.HandleExceptions(e, "One of the Files could not be found");
+            utils.saveOnedocument(dest,"_new.xml", utils.changeId(srcDoc, destDoc, destComp,safeMode.isSelected()));
         } catch (Exception e) {
             utils.HandleExceptions(e, null);
         }
