@@ -370,32 +370,37 @@ public class utils {
 
     static ArrayList<String[]> checkMultipleTranslations(Document src,
                                                          Document dest) {
-        Map<String, List<String>> UniqueStrings = new HashMap<>();
+        // Unique Source Strings / IDS
+        Map<String, List<String>> UniqueStrings;
+
         //Translated Strings
         ArrayList<String[]> mt = new ArrayList<String[]>();
 
         //get the unique strings from the src file
         UniqueStrings = getUniqueStrings(src.selectNodes("//string"));
+
+
         //loop through the entries
         for (Map.Entry<String, List<String>> entry : UniqueStrings.entrySet()) {
             List<String> ids = entry.getValue();
 
             Map<String, List<String>> UniqueTsStrings = new HashMap<>();
+            List<String> idsList = new ArrayList<String>();
             //loop through the ids
             for (int i = 0; i < ids.size(); i++) {
                 Node temp = dest.selectSingleNode("//string[@id='" + ids.get(i) + "']");
-                Element eSrcElement = (Element) temp;
-                String srcText = eSrcElement.getText();
-                List<String> idsList = new ArrayList<String>();
-                if (UniqueStrings.containsKey(srcText)) {
-                    idsList = UniqueStrings.get(srcText);
+                Element edestElement = (Element) temp;
+                String destText = edestElement.selectSingleNode("content/langstring").getText();
+
+                if (UniqueTsStrings.containsKey(destText)) {
+                    idsList = UniqueTsStrings.get(destText);
                 }
-                idsList.add(eSrcElement.attributeValue("id"));
-                UniqueTsStrings.put(srcText, idsList);
+                idsList.add(edestElement.attributeValue("id"));
+                UniqueTsStrings.put(destText, idsList);
 
             }
-            if (UniqueTsStrings.size() > 1) {
-                ;
+             if (UniqueTsStrings.size() > 1) {
+
                 mt.add(new String[]{entry.getKey()});
                 for (Map.Entry<String, List<String>> ent :
                         UniqueTsStrings.entrySet()) {
