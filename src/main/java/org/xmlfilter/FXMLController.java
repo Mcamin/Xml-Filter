@@ -10,9 +10,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.dom4j.*;
+
+import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -219,20 +222,24 @@ public class FXMLController implements Initializable {
         LocalDate todate = this.toDate.getValue();
         boolean translationState = tsState.isSelected();
 
-        try {
-            from = inputformatter.parse(fromdate.toString() +
-                    " " + fromtime.toString());
+
+
+
+        Document doc = null;
+
+        try {from = inputformatter.parse(fromdate.toString() +
+                " " + fromtime.toString());
             if (group.getSelectedToggle().equals(range)) {
                 to = inputformatter.parse(todate.toString() +
                         " " + totime.toString());
             }
-        } catch (Exception e) {
+            doc = utils.loadDocument(p);
+            utils.savedocument(p, utils.FilterStrings(doc, from, to,
+                    type, translationState));
+        }catch (Exception e) {
             e.printStackTrace();
-            utils.HandleExceptions(e, "Choose date and time");
+            utils.HandleExceptions(e, null);
         }
-        Document doc = utils.loadDocument(p);
-        utils.savedocument(p, utils.FilterStrings(doc, from, to,
-                type, translationState));
         utils.triggerAlert("Info", "Done!");
 
 
@@ -366,7 +373,7 @@ public class FXMLController implements Initializable {
                         utils.changeId(srcDoc, destDoc, compDoc,
                                 safeMode.isSelected()));
             }
-
+            utils.triggerAlert("Info", "Done!");
 
         } catch (Exception e) {
             e.printStackTrace();
