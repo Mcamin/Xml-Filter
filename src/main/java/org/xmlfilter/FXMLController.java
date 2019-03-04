@@ -10,18 +10,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.dom4j.*;
-import org.w3c.dom.NodeList;
-
 import java.net.URL;
-import java.text.ParseException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
-
-import static java.nio.charset.Charset.forName;
-
 
 public class FXMLController implements Initializable {
     private int type;
@@ -86,7 +83,8 @@ public class FXMLController implements Initializable {
 
     /**
      * Initialize the tabs
-     * @param location: URL
+     *
+     * @param location:  URL
      * @param resources: resources
      */
     @Override
@@ -99,7 +97,6 @@ public class FXMLController implements Initializable {
                             tsState.setSelected(false);
                             filepath.setText("");
                         } else if (TabPane.getSelectionModel().getSelectedItem().getId().equals("XmlFilterTab")) {
-                            safeMode.setSelected(true);
                             filepathSrc.setText("");
                             filepathDest.setText("");
                             filepathComp.setText("");
@@ -115,6 +112,7 @@ public class FXMLController implements Initializable {
 
     /**
      * Range Radiobutton Function
+     *
      * @param event
      */
     @FXML
@@ -129,6 +127,7 @@ public class FXMLController implements Initializable {
 
     /**
      * Before Radiobutton function
+     *
      * @param event
      */
     @FXML
@@ -145,6 +144,7 @@ public class FXMLController implements Initializable {
 
     /**
      * Exact Radiobutton Function
+     *
      * @param event
      */
     @FXML
@@ -155,6 +155,7 @@ public class FXMLController implements Initializable {
 
     /**
      * After Radiobutton Function
+     *
      * @param event
      */
     @FXML
@@ -174,8 +175,10 @@ public class FXMLController implements Initializable {
             this.toDate.setValue(null);
         }
     }
+
     /**
      * Cancel Button Function
+     *
      * @param event
      */
     @FXML
@@ -186,6 +189,7 @@ public class FXMLController implements Initializable {
 
     /**
      * Choose File Button Function
+     *
      * @param event
      */
     @FXML
@@ -195,6 +199,7 @@ public class FXMLController implements Initializable {
 
     /**
      * Trigger Filtering Strings: Save Button Function
+     *
      * @param event
      */
     @FXML
@@ -202,25 +207,26 @@ public class FXMLController implements Initializable {
         //file Path
         String p = filepath.getText();
         //Date & Time
-        Date from=null;
+        Date from = null;
         Date to = null;
         LocalTime fromtime = this.fromTime.getValue();
         LocalTime totime = this.toTime.getValue();
         LocalDate fromdate = this.fromDate.getValue();
         LocalDate todate = this.toDate.getValue();
-        boolean translationState =tsState.isSelected();
+        boolean translationState = tsState.isSelected();
 
         try {
             from = inputformatter.parse(fromdate.toString() + " " + fromtime.toString());
             if (group.getSelectedToggle().equals(range)) {
-                to = inputformatter.parse(todate.toString() + " " + totime.toString());}
+                to = inputformatter.parse(todate.toString() + " " + totime.toString());
+            }
         } catch (Exception e) {
             e.printStackTrace();
             utils.HandleExceptions(e, "Choose date and time");
         }
-            Document doc = utils.loadDocument(p);
-            utils.savedocument(p, utils.FilterStrings(doc, from, to, type,translationState));
-            utils.triggerAlert("Info","Done!");
+        Document doc = utils.loadDocument(p);
+        utils.savedocument(p, utils.FilterStrings(doc, from, to, type, translationState));
+        utils.triggerAlert("Info", "Done!");
 
 
     }
@@ -230,6 +236,7 @@ public class FXMLController implements Initializable {
 
     /**
      * Safe mode checkbox Function
+     *
      * @param event
      */
     @FXML
@@ -247,6 +254,7 @@ public class FXMLController implements Initializable {
 
     /**
      * Compare only checkbox
+     *
      * @param event
      */
     @FXML
@@ -254,17 +262,18 @@ public class FXMLController implements Initializable {
 
         if (this.compareOnly.isSelected()) {
             //Remove Selection from safe mode: no safe mode involved
-            if(this.safeMode.isSelected()){
+            if (this.safeMode.isSelected()) {
                 this.safeMode.setSelected(false);
 
             }
             this.safeMode.setDisable(true);
-           //Disable chooser Destination
+            //Disable chooser Destination
             this.chooseButtonDest.setDisable(true);
             this.filepathDest.setDisable(true);
-            if(this.chooseButtonComp.isDisabled() && this.filepathComp.isDisabled())
-            {this.chooseButtonComp.setDisable(false);
-              this.filepathComp.setDisable(false);}
+            if (this.chooseButtonComp.isDisabled() && this.filepathComp.isDisabled()) {
+                this.chooseButtonComp.setDisable(false);
+                this.filepathComp.setDisable(false);
+            }
         } else {
             //Enable chooser Destination
             this.chooseButtonComp.setDisable(true);
@@ -278,6 +287,7 @@ public class FXMLController implements Initializable {
 
     /**
      * open the file to copy the Ids from
+     *
      * @param event
      */
     @FXML
@@ -287,6 +297,7 @@ public class FXMLController implements Initializable {
 
     /**
      * Open the file to copy the Ids into
+     *
      * @param event
      */
     @FXML
@@ -296,6 +307,7 @@ public class FXMLController implements Initializable {
 
     /**
      * Open the File to compare with: Same language/texts / Different IdS
+     *
      * @param event
      */
     @FXML
@@ -305,6 +317,7 @@ public class FXMLController implements Initializable {
 
     /**
      * Trigger Changing ID : Start Button Function
+     *
      * @param event
      */
     @FXML
@@ -315,32 +328,34 @@ public class FXMLController implements Initializable {
         String comp = filepathComp.getText();
 
         try {
-            Document srcDoc=null;
-            Document destDoc=null;
-            Document destComp=null;
-            if(this.compareOnly.isSelected()){
-                 srcDoc = utils.loadDocument(src);
-                destComp = utils.loadDocument(comp);
-                //TODO:call the compare function to generate the excel file
-            }else if(this.safeMode.isSelected()){
-                 srcDoc = utils.loadDocument(src);
-                 destDoc = utils.loadDocument(dest);
-                 destComp = utils.loadDocument(comp);
-            }else
-                {  srcDoc = utils.loadDocument(src);
-                    destDoc = utils.loadDocument(dest);
-                }
+            Document srcDoc = null;
+            Document destDoc = null;
+            Document compDoc = null;
+            if (this.compareOnly.isSelected()) {
+                srcDoc = utils.loadDocument(src);
+                compDoc = utils.loadDocument(comp);
+                Path path = Paths.get(src);
+                String  outputPath;
+                outputPath = src.substring(0, src.indexOf(path.getFileName().toString()));
+                ArrayList<String[]> strings= utils.checkMultipleTranslations(srcDoc, compDoc);
+                utils.writeDataInCsv(outputPath,strings);
+            } else if (this.safeMode.isSelected()) {
+                srcDoc = utils.loadDocument(src);
+                destDoc = utils.loadDocument(dest);
+                compDoc = utils.loadDocument(comp);
+                utils.saveOnedocument(dest, "_new.xml", utils.changeId(srcDoc, destDoc, compDoc, safeMode.isSelected()));
+            } else {
+                srcDoc = utils.loadDocument(src);
+                destDoc = utils.loadDocument(dest);
+                utils.saveOnedocument(dest, "_new.xml", utils.changeId(srcDoc, destDoc, compDoc, safeMode.isSelected()));
+            }
 
-            utils.saveOnedocument(dest,"_new.xml", utils.changeId(srcDoc, destDoc, destComp,safeMode.isSelected()));
+
         } catch (Exception e) {
+            e.printStackTrace();
             utils.HandleExceptions(e, null);
         }
     }
-
-
-
-
-
 
 
 }
