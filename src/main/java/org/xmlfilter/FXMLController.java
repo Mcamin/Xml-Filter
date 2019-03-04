@@ -22,7 +22,8 @@ import java.util.ResourceBundle;
 
 public class FXMLController implements Initializable {
     private int type;
-    private SimpleDateFormat inputformatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    private SimpleDateFormat inputformatter =
+            new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
 
     /*XML FILTER CONTROLLER*/
@@ -92,11 +93,14 @@ public class FXMLController implements Initializable {
         TabPane.getSelectionModel().selectedItemProperty().addListener(
                 new ChangeListener<Tab>() {
                     @Override
-                    public void changed(ObservableValue<? extends Tab> ov, Tab idChTab, Tab XmlFilterTab) {
-                        if (TabPane.getSelectionModel().getSelectedItem().getId().equals("idChTab")) {
+                    public void changed(ObservableValue<? extends Tab> ov,
+                                        Tab idChTab, Tab XmlFilterTab) {
+                        if (TabPane.getSelectionModel().getSelectedItem().getId()
+                                .equals("idChTab")) {
                             tsState.setSelected(false);
                             filepath.setText("");
-                        } else if (TabPane.getSelectionModel().getSelectedItem().getId().equals("XmlFilterTab")) {
+                        } else if (TabPane.getSelectionModel().getSelectedItem()
+                                .getId().equals("XmlFilterTab")) {
                             filepathSrc.setText("");
                             filepathDest.setText("");
                             filepathComp.setText("");
@@ -216,16 +220,19 @@ public class FXMLController implements Initializable {
         boolean translationState = tsState.isSelected();
 
         try {
-            from = inputformatter.parse(fromdate.toString() + " " + fromtime.toString());
+            from = inputformatter.parse(fromdate.toString() +
+                    " " + fromtime.toString());
             if (group.getSelectedToggle().equals(range)) {
-                to = inputformatter.parse(todate.toString() + " " + totime.toString());
+                to = inputformatter.parse(todate.toString() +
+                        " " + totime.toString());
             }
         } catch (Exception e) {
             e.printStackTrace();
             utils.HandleExceptions(e, "Choose date and time");
         }
         Document doc = utils.loadDocument(p);
-        utils.savedocument(p, utils.FilterStrings(doc, from, to, type, translationState));
+        utils.savedocument(p, utils.FilterStrings(doc, from, to,
+                type, translationState));
         utils.triggerAlert("Info", "Done!");
 
 
@@ -270,7 +277,8 @@ public class FXMLController implements Initializable {
             //Disable chooser Destination
             this.chooseButtonDest.setDisable(true);
             this.filepathDest.setDisable(true);
-            if (this.chooseButtonComp.isDisabled() && this.filepathComp.isDisabled()) {
+            if (this.chooseButtonComp.isDisabled() &&
+                    this.filepathComp.isDisabled()) {
                 this.chooseButtonComp.setDisable(false);
                 this.filepathComp.setDisable(false);
             }
@@ -292,6 +300,7 @@ public class FXMLController implements Initializable {
      */
     @FXML
     void handlechooseButtonSrc(ActionEvent event) {
+
         utils.loadOpenDialog(filepathSrc, chooseButtonSrc);
     }
 
@@ -302,6 +311,7 @@ public class FXMLController implements Initializable {
      */
     @FXML
     void handlechooseButtonDest(ActionEvent event) {
+
         utils.loadOpenDialog(filepathDest, chooseButtonDest);
     }
 
@@ -312,6 +322,7 @@ public class FXMLController implements Initializable {
      */
     @FXML
     void handlechooseButtonComp(ActionEvent event) {
+
         utils.loadOpenDialog(filepathComp, chooseButtonComp);
     }
 
@@ -336,18 +347,24 @@ public class FXMLController implements Initializable {
                 compDoc = utils.loadDocument(comp);
                 Path path = Paths.get(src);
                 String  outputPath;
-                outputPath = src.substring(0, src.indexOf(path.getFileName().toString()));
-                ArrayList<String[]> strings= utils.checkMultipleTranslations(srcDoc, compDoc);
+                outputPath = src.substring(0,
+                        src.indexOf(path.getFileName().toString()));
+                ArrayList<String[]> strings=
+                        utils.checkMultipleTranslations(srcDoc, compDoc);
                 utils.writeDataInCsv(outputPath,strings);
             } else if (this.safeMode.isSelected()) {
                 srcDoc = utils.loadDocument(src);
                 destDoc = utils.loadDocument(dest);
                 compDoc = utils.loadDocument(comp);
-                utils.saveOnedocument(dest, "_new.xml", utils.changeId(srcDoc, destDoc, compDoc, safeMode.isSelected()));
+                utils.saveOnedocument(dest, "_new.xml",
+                        utils.changeId(srcDoc, destDoc, compDoc,
+                                safeMode.isSelected()));
             } else {
                 srcDoc = utils.loadDocument(src);
                 destDoc = utils.loadDocument(dest);
-                utils.saveOnedocument(dest, "_new.xml", utils.changeId(srcDoc, destDoc, compDoc, safeMode.isSelected()));
+                utils.saveOnedocument(dest, "_new.xml",
+                        utils.changeId(srcDoc, destDoc, compDoc,
+                                safeMode.isSelected()));
             }
 
 
