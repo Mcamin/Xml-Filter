@@ -8,11 +8,11 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.apache.commons.io.FileUtils;
 import org.dom4j.*;
+import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+
+import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
@@ -107,9 +107,12 @@ public class utils {
             String filename, outputPath;
             filename = path.getFileName().toString();
             outputPath = p.substring(0, p.indexOf(filename));
-            String file = outputPath + filename.substring(0, filename.indexOf('.')) + ext;
 
-            XMLWriter writer = new XMLWriter(new FileWriter(file));
+            String file = outputPath + filename.substring(0, filename.indexOf('.')) + ext;
+            OutputStream out = new FileOutputStream(file);
+            OutputFormat outFormat = OutputFormat.createPrettyPrint();
+            outFormat.setEncoding("UTF-8");
+            XMLWriter writer = new XMLWriter(out,outFormat);
             writer.write(document);
             writer.close();
 
@@ -217,7 +220,7 @@ public class utils {
         if (translationState) {
             output1 = createDocument();
         }
-        System.out.println(list.size());
+
         for (int i = 0; i < list.size(); i++) {
             Element temp = (Element) list.get(i);
             Date date = null;
@@ -233,9 +236,15 @@ public class utils {
                     output1.getRootElement().add(temp.createCopy());
 
                 }
-                output.getRootElement().addText("\n\t");
-                output.getRootElement().add(temp.createCopy());
+                if(!translationState){
+                    output.getRootElement().addText("\n\t");
+                    output.getRootElement().add(temp.createCopy());
+                }
+
             }
+            if(translationState){
+            output.getRootElement().addText("\n\t");
+            output.getRootElement().add(temp.createCopy());}
         }
         output.getRootElement().addText("\n\t");
         if (output1 != null) {
@@ -278,7 +287,7 @@ public class utils {
                 //check if the number of elements in each XML Document is the same
                 if (srcCompStrNbr && destCompStrNbr) {
 
-                    checkMultipleTranslations(compDoc, destDoc);
+                    //checkMultipleTranslations(compDoc, destDoc);
                     for (int temp = 0; temp < srcnList.size(); temp++) {
                         boolean found = false;
                         Element nSrcNode = (Element) srcnList.get(temp);
