@@ -382,35 +382,50 @@ public class utils {
 
         //loop through the entries
         for (Map.Entry<String, List<String>> entry : UniqueStrings.entrySet()) {
-            List<String> ids = entry.getValue();
+            //get the ids for each string
 
+            List<String> ids = entry.getValue();
+            //to get the translated string in hashmap
             Map<String, List<String>> UniqueTsStrings = new HashMap<>();
-            List<String> idsList = new ArrayList<String>();
-            //loop through the ids
+            //List to put the ids gathered from the translated file
+
+
+            //loop through the original file's ids
             for (int i = 0; i < ids.size(); i++) {
-                Node temp = dest.selectSingleNode("//string[@id='" + ids.get(i) + "']");
+                //get the text from the destination file
+                List<String> idsList = new ArrayList<String>();
+                Node temp = dest.selectSingleNode("strings/string[@id='" + ids.get(i) + "']");
                 Element edestElement = (Element) temp;
+
                 String destText = edestElement.selectSingleNode("content/langstring").getText();
+                 //add it to the hashmap
 
                 if (UniqueTsStrings.containsKey(destText)) {
                     idsList = UniqueTsStrings.get(destText);
+
                 }
+
                 idsList.add(edestElement.attributeValue("id"));
                 UniqueTsStrings.put(destText, idsList);
 
             }
+
              if (UniqueTsStrings.size() > 1) {
 
-                mt.add(new String[]{entry.getKey()});
+                mt.add(new String[]{"Source Text:",entry.getKey()});
+                System.out.println(UniqueTsStrings.size());
                 for (Map.Entry<String, List<String>> ent :
                         UniqueTsStrings.entrySet()) {
-                    mt.add(new String[]{ent.getKey()});
-                    String[] x = {};
-                    List<String> mid = entry.getValue();
-                    for (int i = 0; i < mid.size(); i++) {
-                        x[i] = mid.get(i);
+                    mt.add(new String[]{"Translation:",ent.getKey()});
+
+                    List<String> mid = ent.getValue();
+                    System.out.println("mid size: "+mid.size());
+                    String[] stringslist = new String[mid.size()+1];
+                    stringslist[0]="IDS:";
+                    for (int k = 0; k < mid.size(); k++) {
+                        stringslist[k+1] = mid.get(k);
                     }
-                    mt.add(x);
+                    mt.add(stringslist);
                 }
 
             }
@@ -422,10 +437,11 @@ public class utils {
 
     private static Map getUniqueStrings(List<Node> srcnList) {
         Map<String, List<String>> UniqueStrings = new HashMap<>();
+
         for (int temp = 0; temp < srcnList.size(); temp++) {
 
             Element eSrcElement = (Element) srcnList.get(temp);
-            String srcText = eSrcElement.getText();
+            String srcText = eSrcElement.selectSingleNode("content/langstring").getText();
             List<String> idsList = new ArrayList<String>();
             if (UniqueStrings.containsKey(srcText)) {
                 idsList = UniqueStrings.get(srcText);
@@ -448,6 +464,7 @@ public class utils {
     public static void writeDataInCsv(String filePath,
                                       ArrayList<String[]> strings)
             throws IOException {
+        if(strings.size()>0){
         Writer writer = Files.newBufferedWriter(Paths.get(filePath + "multipletranslation.csv"));
 
         CSVWriter csvWriter = new CSVWriter(writer,
@@ -461,7 +478,7 @@ public class utils {
         for (int i = 0; i < strings.size(); i++)
             csvWriter.writeNext(strings.get(i));
         // closing writer connection
-        writer.close();
+        writer.close();}
 
     }
 
