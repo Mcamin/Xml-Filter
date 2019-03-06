@@ -1,7 +1,6 @@
 package org.xmlfilter;
 
 import javafx.application.Application;
-import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -15,7 +14,7 @@ public class MainApp extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/xmlfilter.fxml"));
         stage.setTitle("  Stringdb Tool");
-        stage.setScene(new Scene(root, 506, 320));
+        stage.setScene(new Scene(root, 506, 400));
         stage.show();
         stage.setResizable(false);
         stage.getIcons().add(new Image(MainApp.class.getResourceAsStream("/img/icon.png")));

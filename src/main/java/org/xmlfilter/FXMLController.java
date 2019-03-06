@@ -24,12 +24,15 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 public class FXMLController implements Initializable {
-    private int type;
+
     private SimpleDateFormat inputformatter =
             new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
+    @FXML
+    private TabPane TabPane;
 
     /*XML FILTER CONTROLLER*/
+    private int type;
     @FXML
     private ToggleGroup group;
     @FXML
@@ -58,6 +61,8 @@ public class FXMLController implements Initializable {
     private JFXRadioButton range;
     @FXML
     private JFXCheckBox tsState;
+    @FXML
+    private Tab XmlFilterTab;
 
     /*ID Changer CONTROLLER*/
     @FXML
@@ -79,11 +84,41 @@ public class FXMLController implements Initializable {
     @FXML
     private CheckBox safeMode;
     @FXML
-    private Tab XmlFilterTab;
-    @FXML
-    private TabPane TabPane;
-    @FXML
     private CheckBox compareOnly;
+
+
+    /*Audio Filter CONTROLLER*/
+    private int type_audio;
+    @FXML
+    private Tab AudioFilterTab;
+    @FXML
+    private TextField audio_text_path;
+    @FXML
+    private TextField dex_export_path;
+    @FXML
+    private JFXButton chooseTxtButton_audio;
+    @FXML
+    private JFXButton chooseDexButton_audio;
+    @FXML
+    private ToggleGroup group_audio;
+    @FXML
+    private JFXRadioButton audio_before;
+    @FXML
+    private JFXRadioButton audio_after;
+    @FXML
+    private JFXRadioButton audio_exact;
+    @FXML
+    private JFXRadioButton audio_range;
+    @FXML
+    private JFXTimePicker fromTime_audio;
+    @FXML
+    private JFXDatePicker fromDate_audio;
+    @FXML
+    private JFXDatePicker toDate_audio;
+    @FXML
+    private JFXTimePicker toTime_audio;
+    @FXML
+    private JFXButton saveButton_audio;
 
     /**
      * Initialize the tabs
@@ -100,13 +135,35 @@ public class FXMLController implements Initializable {
                                         Tab idChTab, Tab XmlFilterTab) {
                         if (TabPane.getSelectionModel().getSelectedItem().getId()
                                 .equals("idChTab")) {
+                            //clear first tab
                             tsState.setSelected(false);
                             filepath.setText("");
+                            range.setSelected(true);
+                            //clear third tab
+                            audio_text_path.setText("");
+                            dex_export_path.setText("");
+                            audio_range.setSelected(true);
                         } else if (TabPane.getSelectionModel().getSelectedItem()
                                 .getId().equals("XmlFilterTab")) {
+                            //clear second tab
                             filepathSrc.setText("");
                             filepathDest.setText("");
                             filepathComp.setText("");
+                            //clear third tab
+                            audio_text_path.setText("");
+                            dex_export_path.setText("");
+                            audio_range.setSelected(true);
+                        }
+                        else if (TabPane.getSelectionModel().getSelectedItem()
+                                .getId().equals("AudioFilterTab")) {
+                            //clear second tab
+                            filepathSrc.setText("");
+                            filepathDest.setText("");
+                            filepathComp.setText("");
+                            //clear first tab
+                            tsState.setSelected(false);
+                            filepath.setText("");
+                            range.setSelected(true);
                         }
                     }
                 }
@@ -115,7 +172,7 @@ public class FXMLController implements Initializable {
 
     }
 
-    /*Filter tool Functions*/
+    /*Audio tool Functions*/
 
     /**
      * Range Radiobutton Function
@@ -123,12 +180,12 @@ public class FXMLController implements Initializable {
      * @param event
      */
     @FXML
-    void handlerangeSelected(ActionEvent event) {
+    void handlerangeSelectedAudio(ActionEvent event) {
 
-        type = 0;
-        if (this.toTime.isDisable() && this.toDate.isDisable()) {
-            this.toTime.setDisable(false);
-            this.toDate.setDisable(false);
+        type_audio = 0;
+        if (this.toTime_audio.isDisable() && this.toDate_audio.isDisable()) {
+            this.toTime_audio.setDisable(false);
+            this.toDate_audio.setDisable(false);
         }
     }
 
@@ -138,14 +195,9 @@ public class FXMLController implements Initializable {
      * @param event
      */
     @FXML
-    void handlebeforeSelected(ActionEvent event) {
-        type = 2;
-        if (!(this.toTime.isDisable() && this.toDate.isDisable())) {
-            this.toTime.setValue(null);
-            this.toDate.setValue(null);
-            this.toTime.setDisable(true);
-            this.toDate.setDisable(true);
-        }
+    void handlebeforeSelectedAudio(ActionEvent event) {
+        type_audio = 2;
+        resetTotime_audio();
 
     }
 
@@ -155,9 +207,9 @@ public class FXMLController implements Initializable {
      * @param event
      */
     @FXML
-    void handleexactSelected(ActionEvent event) {
-        type = 3;
-        resetTotime();
+    void handleexactSelectedAudio(ActionEvent event) {
+        type_audio = 3;
+        resetTotime_audio();
     }
 
     /**
@@ -166,32 +218,33 @@ public class FXMLController implements Initializable {
      * @param event
      */
     @FXML
-    void handleafterSelected(ActionEvent event) {
-        type = 1;
-        resetTotime();
+    void handleafterSelectedAudio(ActionEvent event) {
+        type_audio = 1;
+        resetTotime_audio();
     }
 
     /**
      * Reset the to time and date fields
      */
-    private void resetTotime() {
-        if (!(this.toTime.isDisable() && this.toDate.isDisable())) {
-            this.toTime.setDisable(true);
-            this.toDate.setDisable(true);
-            this.toTime.setValue(null);
-            this.toDate.setValue(null);
+    private void resetTotime_audio() {
+        if (!(this.toTime_audio.isDisable() && this.toDate_audio.isDisable())) {
+            this.toTime_audio.setDisable(true);
+            this.toDate_audio.setDisable(true);
+            this.toTime_audio.setValue(null);
+            this.toDate_audio.setValue(null);
         }
     }
 
+
+
     /**
-     * Cancel Button Function
+     * Choose File Button Function
      *
      * @param event
      */
     @FXML
-    void handlecancelButton(ActionEvent event) {
-        Stage stage = (Stage) cancelButton.getScene().getWindow();
-        stage.close();
+    void handlechoosetxtButton_audio(ActionEvent event) {
+        utils.loadOpenDialog(audio_text_path, chooseTxtButton_audio);
     }
 
     /**
@@ -200,8 +253,8 @@ public class FXMLController implements Initializable {
      * @param event
      */
     @FXML
-    void handlechooseButton(ActionEvent event) {
-        utils.loadOpenDialog(filepath, chooseButton);
+    void handlechooseDexButton_audio(ActionEvent event) {
+        utils.loadOpenDialog(dex_export_path, chooseDexButton_audio);
     }
 
     /**
@@ -210,32 +263,33 @@ public class FXMLController implements Initializable {
      * @param event
      */
     @FXML
-    void handleSaveButton(ActionEvent event) {
+    void handleSaveButtonAudio(ActionEvent event) {
         //file Path
-        String p = filepath.getText();
+        String text_export_path = audio_text_path.getText();
+        String dx_export_path = dex_export_path.getText();
         //Date & Time
         Date from = null;
         Date to = null;
-        LocalTime fromtime = this.fromTime.getValue();
-        LocalTime totime = this.toTime.getValue();
-        LocalDate fromdate = this.fromDate.getValue();
-        LocalDate todate = this.toDate.getValue();
-        boolean translationState = tsState.isSelected();
+        LocalTime fromtime = this.fromTime_audio.getValue();
+        LocalTime totime = this.toTime_audio.getValue();
+        LocalDate fromdate = this.fromDate_audio.getValue();
+        LocalDate todate = this.toDate_audio.getValue();
 
 
 
 
-        Document doc = null;
-
+        Document text_doc = null;
+        Document dex_doc = null;
         try {from = inputformatter.parse(fromdate.toString() +
                 " " + fromtime.toString());
-            if (group.getSelectedToggle().equals(range)) {
+            if (group_audio.getSelectedToggle().equals(range)) {
                 to = inputformatter.parse(todate.toString() +
                         " " + totime.toString());
             }
-            doc = utils.loadDocument(p);
-            utils.savedocument(p, utils.FilterStrings(doc, from, to,
-                    type, translationState));
+            text_doc = utils.loadDocument(text_export_path);
+            dex_doc = utils.loadDocument(dx_export_path);
+             utils.saveaudioReport(utils.FilterAudioStrings(dex_doc,text_doc, from, to,
+                    type_audio),text_export_path);
         }catch (Exception e) {
             e.printStackTrace();
             utils.HandleExceptions(e, null);
@@ -381,7 +435,130 @@ public class FXMLController implements Initializable {
         }
     }
 
+    /*Filter tool Functions*/
 
+    /**
+     * Range Radiobutton Function
+     *
+     * @param event
+     */
+    @FXML
+    void handlerangeSelected(ActionEvent event) {
+
+        type = 0;
+        if (this.toTime.isDisable() && this.toDate.isDisable()) {
+            this.toTime.setDisable(false);
+            this.toDate.setDisable(false);
+        }
+    }
+
+    /**
+     * Before Radiobutton function
+     *
+     * @param event
+     */
+    @FXML
+    void handlebeforeSelected(ActionEvent event) {
+        type = 2;
+        resetTotime();
+
+    }
+
+    /**
+     * Exact Radiobutton Function
+     *
+     * @param event
+     */
+    @FXML
+    void handleexactSelected(ActionEvent event) {
+        type = 3;
+        resetTotime();
+    }
+
+    /**
+     * After Radiobutton Function
+     *
+     * @param event
+     */
+    @FXML
+    void handleafterSelected(ActionEvent event) {
+        type = 1;
+        resetTotime();
+    }
+
+    /**
+     * Reset the to time and date fields
+     */
+    private void resetTotime() {
+        if (!(this.toTime.isDisable() && this.toDate.isDisable())) {
+            this.toTime.setDisable(true);
+            this.toDate.setDisable(true);
+            this.toTime.setValue(null);
+            this.toDate.setValue(null);
+        }
+    }
+
+    /**
+     * Cancel Button Function
+     *
+     * @param event
+     */
+    @FXML
+    void handlecancelButton(ActionEvent event) {
+        Stage stage = (Stage) cancelButton.getScene().getWindow();
+        stage.close();
+    }
+
+    /**
+     * Choose File Button Function
+     *
+     * @param event
+     */
+    @FXML
+    void handlechooseButton(ActionEvent event) {
+        utils.loadOpenDialog(filepath, chooseButton);
+    }
+
+    /**
+     * Trigger Filtering Strings: Save Button Function
+     *
+     * @param event
+     */
+    @FXML
+    void handleSaveButton(ActionEvent event) {
+        //file Path
+        String p = filepath.getText();
+        //Date & Time
+        Date from = null;
+        Date to = null;
+        LocalTime fromtime = this.fromTime.getValue();
+        LocalTime totime = this.toTime.getValue();
+        LocalDate fromdate = this.fromDate.getValue();
+        LocalDate todate = this.toDate.getValue();
+        boolean translationState = tsState.isSelected();
+
+
+
+
+        Document doc = null;
+
+        try {from = inputformatter.parse(fromdate.toString() +
+                " " + fromtime.toString());
+            if (group.getSelectedToggle().equals(range)) {
+                to = inputformatter.parse(todate.toString() +
+                        " " + totime.toString());
+            }
+            doc = utils.loadDocument(p);
+            utils.savedocument(p, utils.FilterStrings(doc, from, to,
+                    type, translationState));
+        }catch (Exception e) {
+            e.printStackTrace();
+            utils.HandleExceptions(e, null);
+        }
+        utils.triggerAlert("Info", "Done!");
+
+
+    }
 }
 
 

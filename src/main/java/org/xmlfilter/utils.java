@@ -11,7 +11,6 @@ import org.dom4j.*;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
-
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -367,7 +366,12 @@ public class utils {
         return null;
     }
 
-
+    /**
+     * return the multiple translation of a string element
+     * @param src source file
+     * @param dest destination file
+     * @return array list of the multiple translation strings
+     */
     static ArrayList<String[]> checkMultipleTranslations(Document src,
                                                          Document dest) {
         // Unique Source Strings / IDS
@@ -434,7 +438,11 @@ public class utils {
 
     }
 
-
+    /**
+     * create K,V mapping Unique String and ids
+     * @param srcnList list of strings elements
+     * @return hashmap
+     */
     private static Map getUniqueStrings(List<Node> srcnList) {
         Map<String, List<String>> UniqueStrings = new HashMap<>();
 
@@ -504,6 +512,88 @@ public class utils {
             }
         }
         return srcnList;
+    }
+
+
+    /**
+     * Filter Audio Strings
+     *@param dexdoc: audio file
+     * @param stringdoc: strings file
+     * @param after:Time  restriction
+     * @param before:Time restriction
+     * @return Document
+     */
+    static  Map<String, String> FilterAudioStrings(Document dexdoc,Document stringdoc, Date after,
+                                             Date before, int type) throws ParseException {
+        //Initialize Xml Output
+        Document output = createDocument();
+        List<Node> list = stringdoc.selectNodes("//string");
+        Map<String, String> audionamemap = new HashMap<>();
+
+        for (int i = 0; i < list.size(); i++) {
+            Element temp = (Element) list.get(i);
+            Date date = null;
+            date = formatter.parse(
+                    temp.selectSingleNode("timestamps/timestamp").valueOf("@actiondateliteral"));
+            if (testDate(after, before, date, type)) {
+
+                if (temp.valueOf("@audiotext").equals("true")) {
+                    output.getRootElement().add(temp.createCopy());
+                }
+
+            }
+        }
+        audionamemap= matchStringstonames(output,dexdoc);
+
+
+        return audionamemap;
+
+    }
+    /**
+     * Map the ids from String export to the filenames from dex export
+     *@param dexdoc: audio file
+     *@param output: string file
+     * @return Document
+     */
+    static  Map<String, String> matchStringstonames(Document output,Document dexdoc){
+
+        Map<String, String> stringsMap = new HashMap<>();
+
+        List<Node> list = output.selectNodes("//string");
+
+        for (int i = 0; i < list.size(); i++) {
+            Element temp = (Element) list.get(i);
+            Node textNode=dexdoc.selectSingleNode("//audio_simple/text_audio_1[@hidden_textid='"+temp.attributeValue("id")+"']");
+            Node textNode2=dexdoc.selectSingleNode("//audio_simple/text_audio_2[@hidden_textid='"+temp.attributeValue("id")+"']");
+            if(textNode!=null){
+               Element filenameElm= (Element)textNode.getParent().selectSingleNode("filename");
+               String filename =filenameElm.getText();
+                if(filename.indexOf('/')>-1)filename =filename.substring(filename.indexOf('/')+1);
+                stringsMap.put(filename,textNode.getText());
+            }else if(textNode2!=null){
+                Element filenameElm= (Element)textNode2.getParent().selectSingleNode("filename");
+                String filename =filenameElm.getText();
+                if(filename.indexOf('/')>-1)filename =filename.substring(filename.indexOf('/')+1);
+                stringsMap.put(filename,textNode2.getText());
+            }
+
+
+
+        }
+
+        return stringsMap;
+    }
+    static void saveaudioReport(Map<String, String> stringMap,String Path) throws IOException {
+        String output="";
+        Path path = Paths.get(Path);
+        String  outputPath;
+        outputPath = Path.substring(0,
+                Path.indexOf(path.getFileName().toString()));
+        for(Map.Entry<String, String> ent :stringMap.entrySet())
+        {output+=ent.getKey()+"####"+ent.getValue()+"\n";}
+
+        FileUtils.writeStringToFile(new File(outputPath+"AudioTextChangesReport.txt"), output, forName("UTF-8"));
+
     }
 
 }
