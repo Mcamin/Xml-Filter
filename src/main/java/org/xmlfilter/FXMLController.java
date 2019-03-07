@@ -139,20 +139,43 @@ public class FXMLController implements Initializable {
                             tsState.setSelected(false);
                             filepath.setText("");
                             range.setSelected(true);
+                            fromTime.setValue(null);
+                            fromDate.setValue(null);
+                            toDate.setDisable(false);
+                            toTime.setDisable(false);
+                            toDate.setValue(null);
+                            toTime.setValue(null);
                             //clear third tab
                             audio_text_path.setText("");
                             dex_export_path.setText("");
                             audio_range.setSelected(true);
+                            fromTime_audio.setValue(null);
+                            fromDate_audio.setValue(null);
+                            toDate_audio.setDisable(false);
+                            toTime_audio.setDisable(false);
+                            toDate_audio.setValue(null);
+                            toTime_audio.setValue(null);
                         } else if (TabPane.getSelectionModel().getSelectedItem()
                                 .getId().equals("XmlFilterTab")) {
                             //clear second tab
                             filepathSrc.setText("");
                             filepathDest.setText("");
                             filepathComp.setText("");
+                            safeMode.setSelected(false);
+                            compareOnly.setSelected(false);
+                            filepathDest.setDisable(false);
+                            filepathComp.setDisable(true);
+                            chooseButtonComp.setDisable(true);
                             //clear third tab
                             audio_text_path.setText("");
                             dex_export_path.setText("");
                             audio_range.setSelected(true);
+                            fromTime_audio.setValue(null);
+                            fromDate_audio.setValue(null);
+                            toDate_audio.setDisable(false);
+                            toTime_audio.setDisable(false);
+                            toDate_audio.setValue(null);
+                            toTime_audio.setValue(null);
                         }
                         else if (TabPane.getSelectionModel().getSelectedItem()
                                 .getId().equals("AudioFilterTab")) {
@@ -160,10 +183,21 @@ public class FXMLController implements Initializable {
                             filepathSrc.setText("");
                             filepathDest.setText("");
                             filepathComp.setText("");
+                            safeMode.setSelected(false);
+                            compareOnly.setSelected(false);
+                            filepathDest.setDisable(false);
+                            filepathComp.setDisable(true);
+                            chooseButtonComp.setDisable(true);
                             //clear first tab
                             tsState.setSelected(false);
                             filepath.setText("");
                             range.setSelected(true);
+                            fromTime.setValue(null);
+                            fromDate.setValue(null);
+                            toDate.setDisable(false);
+                            toTime.setDisable(false);
+                            toDate.setValue(null);
+                            toTime.setValue(null);
                         }
                     }
                 }
@@ -280,20 +314,44 @@ public class FXMLController implements Initializable {
 
         Document text_doc = null;
         Document dex_doc = null;
-        try {from = inputformatter.parse(fromdate.toString() +
-                " " + fromtime.toString());
-            if (group_audio.getSelectedToggle().equals(range)) {
+        try {
+            from = inputformatter.parse(fromdate.toString() +
+                    " " + fromtime.toString());
+
+        if (group_audio.getSelectedToggle().equals(range)) {
                 to = inputformatter.parse(todate.toString() +
                         " " + totime.toString());
             }
+        } catch (Exception e) {
+            utils.HandleExceptions(e, "Please Enter the Date and Time");
+            e.printStackTrace();
+        }
+
+
+        try {
             text_doc = utils.loadDocument(text_export_path);
             dex_doc = utils.loadDocument(dx_export_path);
-             utils.saveaudioReport(utils.FilterAudioStrings(dex_doc,text_doc, from, to,
-                    type_audio),text_export_path);
-        }catch (Exception e) {
+        } catch (Exception e) {
+            utils.HandleExceptions(e, "Error when loading files");
             e.printStackTrace();
-            utils.HandleExceptions(e, null);
         }
+        try {
+            text_doc = utils.loadDocument(text_export_path);
+            dex_doc = utils.loadDocument(dx_export_path);
+        } catch (Exception e) {
+            utils.HandleExceptions(e, "Error when loading files");
+            e.printStackTrace();
+        }
+
+
+        try {
+            utils.saveaudioReport(utils.FilterAudioStrings(dex_doc,text_doc, from, to,
+                   type_audio),text_export_path);
+        } catch (Exception e) {
+            utils.HandleExceptions(e, "Error when Processing Audio Strings");
+            e.printStackTrace();
+        }
+
         utils.triggerAlert("Info", "Done!");
 
 
@@ -399,40 +457,64 @@ public class FXMLController implements Initializable {
         String dest = filepathDest.getText();
         String comp = filepathComp.getText();
 
-        try {
+
             Document srcDoc = null;
             Document destDoc = null;
             Document compDoc = null;
             if (this.compareOnly.isSelected()) {
-                srcDoc = utils.loadDocument(src);
-                compDoc = utils.loadDocument(comp);
+                try {
+                    srcDoc = utils.loadDocument(src);
+                    compDoc = utils.loadDocument(comp);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    utils.HandleExceptions(e, "Error when loading files");
+                }
                 Path path = Paths.get(src);
                 String  outputPath;
                 outputPath = src.substring(0,
                         src.indexOf(path.getFileName().toString()));
+                try {
                 ArrayList<String[]> strings=
                         utils.checkMultipleTranslations(srcDoc, compDoc);
+
                 utils.writeDataInCsv(outputPath,strings);
+                }catch (Exception e) {
+                    e.printStackTrace();
+                    utils.HandleExceptions(e, "Error when Comparing the files");
+                }
             } else if (this.safeMode.isSelected()) {
-                srcDoc = utils.loadDocument(src);
+                try {srcDoc = utils.loadDocument(src);
                 destDoc = utils.loadDocument(dest);
                 compDoc = utils.loadDocument(comp);
-                utils.saveOnedocument(dest, "_new.xml",
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    utils.HandleExceptions(e, "Error when loading files");
+                }
+                try {utils.saveOnedocument(dest, "_new.xml",
                         utils.changeId(srcDoc, destDoc, compDoc,
                                 safeMode.isSelected()));
+                }catch (Exception e) {
+                    e.printStackTrace();
+                    utils.HandleExceptions(e, "Error when Changing ids");
+                }
             } else {
-                srcDoc = utils.loadDocument(src);
+                try { srcDoc = utils.loadDocument(src);
                 destDoc = utils.loadDocument(dest);
-                utils.saveOnedocument(dest, "_new.xml",
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    utils.HandleExceptions(e, "Error when loading files");
+                }
+                try {utils.saveOnedocument(dest, "_new.xml",
                         utils.changeId(srcDoc, destDoc, compDoc,
                                 safeMode.isSelected()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    utils.HandleExceptions(e, "Error when changing ids");
+                }
             }
             utils.triggerAlert("Info", "Done!");
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            utils.HandleExceptions(e, null);
-        }
+
     }
 
     /*Filter tool Functions*/
@@ -548,13 +630,18 @@ public class FXMLController implements Initializable {
                 to = inputformatter.parse(todate.toString() +
                         " " + totime.toString());
             }
-            doc = utils.loadDocument(p);
+        }catch (Exception e) {
+            e.printStackTrace();
+            utils.HandleExceptions(e, "Please Enter the Date and Time");
+        }
+        try {doc = utils.loadDocument(p);
             utils.savedocument(p, utils.FilterStrings(doc, from, to,
                     type, translationState));
         }catch (Exception e) {
             e.printStackTrace();
-            utils.HandleExceptions(e, null);
+            utils.HandleExceptions(e, "Error Filtering the Strings");
         }
+
         utils.triggerAlert("Info", "Done!");
 
 

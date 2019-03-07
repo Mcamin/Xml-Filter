@@ -260,11 +260,11 @@ public class utils {
      * @return the output
      */
     static Document changeId(Document srcDoc, Document destDoc,
-                             Document compDoc, boolean sm) {
+                             Document compDoc, boolean sm) throws IOException {
         int nbr = 0;
         String skippedIDs = "";
 
-        try {
+
             //Create the new output file
             Document output = createDocument();
             //Check if Strings should be compared (safe mode checkbox)
@@ -359,11 +359,8 @@ public class utils {
             }
             output.getRootElement().addText("\n\t");
             return output;
-        } catch (Exception e) {
-            e.printStackTrace();
-            HandleExceptions(e, "Something Went Wrong when Changing IDs");
-        }
-        return null;
+
+
     }
 
     /**
