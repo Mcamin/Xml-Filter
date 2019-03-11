@@ -9,8 +9,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.apache.commons.io.FileUtils;
 import org.dom4j.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
@@ -21,6 +23,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class FXMLController implements Initializable {
@@ -313,7 +316,7 @@ public class FXMLController implements Initializable {
 
 
         Document text_doc = null;
-        Document dex_doc = null;
+        List<String> dex_doc = null;
         try {
             from = inputformatter.parse(fromdate.toString() +
                     " " + fromtime.toString());
@@ -328,16 +331,11 @@ public class FXMLController implements Initializable {
         }
 
 
+
         try {
             text_doc = utils.loadDocument(text_export_path);
-            dex_doc = utils.loadDocument(dx_export_path);
-        } catch (Exception e) {
-            utils.HandleExceptions(e, "Error when loading files");
-            e.printStackTrace();
-        }
-        try {
-            text_doc = utils.loadDocument(text_export_path);
-            dex_doc = utils.loadDocument(dx_export_path);
+            File file = new File(dx_export_path);
+            dex_doc  = FileUtils.readLines(file,"UTF-8");
         } catch (Exception e) {
             utils.HandleExceptions(e, "Error when loading files");
             e.printStackTrace();

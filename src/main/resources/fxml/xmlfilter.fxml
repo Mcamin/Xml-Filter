@@ -309,7 +309,7 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <Label prefHeight="20.0" prefWidth="81.0" text="Dex Export:">
+                              <Label prefHeight="20.0" prefWidth="81.0" text="Au-Report:">
                                  <font>
                                     <Font size="14.0" />
                                  </font>

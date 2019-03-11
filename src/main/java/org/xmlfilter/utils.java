@@ -11,6 +11,8 @@ import org.dom4j.*;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
+import org.jsoup.Jsoup;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -19,7 +21,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+
 import static java.nio.charset.Charset.forName;
+import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
 
 
 public class utils {
@@ -37,9 +41,10 @@ public class utils {
         fileChooser.setInitialDirectory(
                 new File(System.getProperty("user.home"))
         );
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Xml", "*.xml")
-        );
+       /* fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Xml", "*.xml"),
+                new FileChooser.ExtensionFilter("Txt", "*.txt")
+        );*/
     }
 
     /**
@@ -265,107 +270,108 @@ public class utils {
         String skippedIDs = "";
 
 
-            //Create the new output file
-            Document output = createDocument();
-            //Check if Strings should be compared (safe mode checkbox)
-            List<Node> srcnList = srcDoc.selectNodes("//string");
-            List<Node> destnList = destDoc.selectNodes("//string");
+        //Create the new output file
+        Document output = createDocument();
+        //Check if Strings should be compared (safe mode checkbox)
+        List<Node> srcnList = srcDoc.selectNodes("//string");
+        List<Node> destnList = destDoc.selectNodes("//string");
 
-            if (sm) {
+        if (sm) {
 
-                List<Node> compList = compDoc.selectNodes("//string");
+            List<Node> compList = compDoc.selectNodes("//string");
 
-                //get the number of elements in each file
-                boolean srcCompStrNbr = srcnList.size() == compList.size();
-                boolean destCompStrNbr = destnList.size() == compList.size();
+            //get the number of elements in each file
+            boolean srcCompStrNbr = srcnList.size() == compList.size();
+            boolean destCompStrNbr = destnList.size() == compList.size();
 
-                //check if the number of elements in each XML
-                // Document is the same
-                if (srcCompStrNbr && destCompStrNbr) {
+            //check if the number of elements in each XML
+            // Document is the same
+            if (srcCompStrNbr && destCompStrNbr) {
 
-                    //checkMultipleTranslations(compDoc, destDoc);
-                    for (int temp = 0; temp < srcnList.size(); temp++) {
-                        boolean found = false;
-                        Element nSrcNode = (Element) srcnList.get(temp);
-                        String srcText = nSrcNode.selectSingleNode("content/langstring").getText();
-                        //check if the src text and the text in the file to
-                        // compare with are identical
-                        for (int temp1 = 0; temp1 < compList.size(); temp1++) {
+                //checkMultipleTranslations(compDoc, destDoc);
+                for (int temp = 0; temp < srcnList.size(); temp++) {
+                    boolean found = false;
+                    Element nSrcNode = (Element) srcnList.get(temp);
+                    String srcText = nSrcNode.selectSingleNode("content/langstring").getText();
+                    //check if the src text and the text in the file to
+                    // compare with are identical
+                    for (int temp1 = 0; temp1 < compList.size(); temp1++) {
 
-                            Element eCompElement = (Element) compList.get(temp1);
-                            String compText = eCompElement.selectSingleNode("content/langstring").getText();
-                            if (srcText.equals(compText)) {
-                                found = true;
-                                Element eDestElement = (Element) destnList.get(temp1);
-                                eDestElement.addAttribute("id", nSrcNode.attributeValue("id"));
-                                output.getRootElement().add(eDestElement.createCopy());
-                                break;
-                            }
-                        }
-                        if (!found) {
-                            skippedIDs += nSrcNode.attributeValue("id") + " : "+srcText+"\n";
-                            nbr++;
+                        Element eCompElement = (Element) compList.get(temp1);
+                        String compText = eCompElement.selectSingleNode("content/langstring").getText();
+                        if (srcText.equals(compText)) {
+                            found = true;
+                            Element eDestElement = (Element) destnList.get(temp1);
+                            eDestElement.addAttribute("id", nSrcNode.attributeValue("id"));
+                            output.getRootElement().add(eDestElement.createCopy());
+                            break;
                         }
                     }
-
-                    FileUtils.writeStringToFile(new File("ids.txt"), skippedIDs, forName("UTF-8"));
-
-                    utils.triggerAlert("Info", "Done!\nString Skipped: " + nbr + "\n");
-                }
-                //File have different elements number
-                else {
-                    utils.triggerAlert("Info", "One of the Files has more Elements than the other. \n Src: " + srcnList.size()
-                            + "\n File to Compare With: " + compList.size() + "\n Dest: " + destnList.size());
-
-                    if (srcnList.size() > compList.size()) {
-
-                        for (Node temp : findDifference(srcnList, compList)) {
-                            Element tempElement=(Element) temp;
-                            output.getRootElement().addText("\n\t");
-                            output.getRootElement().add(tempElement.createCopy());
-                        }
-                    } else {
-                        for (Node temp : findDifference(compList, srcnList)){
-                            Element tempElement=(Element) temp;
-                            output.getRootElement().addText("\n\t");
-                            output.getRootElement().add(tempElement.createCopy());
-                        }
+                    if (!found) {
+                        skippedIDs += nSrcNode.attributeValue("id") + " : " + srcText + "\n";
+                        nbr++;
                     }
                 }
-                //End elements mismatch
+
+                FileUtils.writeStringToFile(new File("ids.txt"), skippedIDs, forName("UTF-8"));
+
+                utils.triggerAlert("Info", "Done!\nString Skipped: " + nbr + "\n");
             }
-            //End Safe Mode
-
-            // No Safe Mode : copy ids one to one
+            //File have different elements number
             else {
-                //check if the number of elements in each XML Document
-                // is the same
-                boolean srcDestStrNbr = srcnList.size() == destnList.size();
-                if (srcDestStrNbr) {
-                    for (int temp = 0; temp < srcnList.size(); temp++) {
-                        //String Node
-                        Element eSrcElement = (Element) srcnList.get(temp);
-                        Element eDestElement = (Element) destnList.get(temp);
-                        eDestElement.addAttribute("id", eSrcElement.attributeValue("id"));
-                        output.getRootElement().addText("\n\t");
-                        output.getRootElement().add(eDestElement.createCopy());
-                    }
+                utils.triggerAlert("Info", "One of the Files has more Elements than the other. \n Src: " + srcnList.size()
+                        + "\n File to Compare With: " + compList.size() + "\n Dest: " + destnList.size());
 
+                if (srcnList.size() > compList.size()) {
+
+                    for (Node temp : findDifference(srcnList, compList)) {
+                        Element tempElement = (Element) temp;
+                        output.getRootElement().addText("\n\t");
+                        output.getRootElement().add(tempElement.createCopy());
+                    }
                 } else {
-                    triggerAlert("Info", "One of the Files has more Elements than the other. \n Src: " + srcnList.size()
-                            + "\n Dest: " + srcnList.size());
+                    for (Node temp : findDifference(compList, srcnList)) {
+                        Element tempElement = (Element) temp;
+                        output.getRootElement().addText("\n\t");
+                        output.getRootElement().add(tempElement.createCopy());
+                    }
+                }
+            }
+            //End elements mismatch
+        }
+        //End Safe Mode
+
+        // No Safe Mode : copy ids one to one
+        else {
+            //check if the number of elements in each XML Document
+            // is the same
+            boolean srcDestStrNbr = srcnList.size() == destnList.size();
+            if (srcDestStrNbr) {
+                for (int temp = 0; temp < srcnList.size(); temp++) {
+                    //String Node
+                    Element eSrcElement = (Element) srcnList.get(temp);
+                    Element eDestElement = (Element) destnList.get(temp);
+                    eDestElement.addAttribute("id", eSrcElement.attributeValue("id"));
+                    output.getRootElement().addText("\n\t");
+                    output.getRootElement().add(eDestElement.createCopy());
                 }
 
+            } else {
+                triggerAlert("Info", "One of the Files has more Elements than the other. \n Src: " + srcnList.size()
+                        + "\n Dest: " + srcnList.size());
             }
-            output.getRootElement().addText("\n\t");
-            return output;
+
+        }
+        output.getRootElement().addText("\n\t");
+        return output;
 
 
     }
 
     /**
      * return the multiple translation of a string element
-     * @param src source file
+     *
+     * @param src  source file
      * @param dest destination file
      * @return array list of the multiple translation strings
      */
@@ -399,7 +405,7 @@ public class utils {
                 Element edestElement = (Element) temp;
 
                 String destText = edestElement.selectSingleNode("content/langstring").getText();
-                 //add it to the hashmap
+                //add it to the hashmap
 
                 if (UniqueTsStrings.containsKey(destText)) {
                     idsList = UniqueTsStrings.get(destText);
@@ -411,20 +417,20 @@ public class utils {
 
             }
 
-             if (UniqueTsStrings.size() > 1) {
+            if (UniqueTsStrings.size() > 1) {
 
-                mt.add(new String[]{"Source Text:",entry.getKey()});
+                mt.add(new String[]{"Source Text:", entry.getKey()});
                 System.out.println(UniqueTsStrings.size());
                 for (Map.Entry<String, List<String>> ent :
                         UniqueTsStrings.entrySet()) {
-                    mt.add(new String[]{"Translation:",ent.getKey()});
+                    mt.add(new String[]{"Translation:", ent.getKey()});
 
                     List<String> mid = ent.getValue();
-                    System.out.println("mid size: "+mid.size());
-                    String[] stringslist = new String[mid.size()+1];
-                    stringslist[0]="IDS:";
+                    System.out.println("mid size: " + mid.size());
+                    String[] stringslist = new String[mid.size() + 1];
+                    stringslist[0] = "IDS:";
                     for (int k = 0; k < mid.size(); k++) {
-                        stringslist[k+1] = mid.get(k);
+                        stringslist[k + 1] = mid.get(k);
                     }
                     mt.add(stringslist);
                 }
@@ -437,6 +443,7 @@ public class utils {
 
     /**
      * create K,V mapping Unique String and ids
+     *
      * @param srcnList list of strings elements
      * @return hashmap
      */
@@ -469,21 +476,22 @@ public class utils {
     public static void writeDataInCsv(String filePath,
                                       ArrayList<String[]> strings)
             throws IOException {
-        if(strings.size()>0){
-        Writer writer = Files.newBufferedWriter(Paths.get(filePath + "multipletranslation.csv"));
+        if (strings.size() > 0) {
+            Writer writer = Files.newBufferedWriter(Paths.get(filePath + "multipletranslation.csv"));
 
-        CSVWriter csvWriter = new CSVWriter(writer,
-                ';',
-                CSVWriter.NO_QUOTE_CHARACTER,
-                CSVWriter.DEFAULT_ESCAPE_CHARACTER,
-                CSVWriter.DEFAULT_LINE_END);
+            CSVWriter csvWriter = new CSVWriter(writer,
+                    ';',
+                    CSVWriter.NO_QUOTE_CHARACTER,
+                    CSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                    CSVWriter.DEFAULT_LINE_END);
 
 
-        // adding data to csv
-        for (int i = 0; i < strings.size(); i++)
-            csvWriter.writeNext(strings.get(i));
-        // closing writer connection
-        writer.close();}
+            // adding data to csv
+            for (int i = 0; i < strings.size(); i++)
+                csvWriter.writeNext(strings.get(i));
+            // closing writer connection
+            writer.close();
+        }
 
     }
 
@@ -514,18 +522,19 @@ public class utils {
 
     /**
      * Filter Audio Strings
-     *@param dexdoc: audio file
-     * @param stringdoc: strings file
+     *
+     * @param dexdoc:     audio file
+     * @param stringdoc:  strings file
      * @param after:Time  restriction
      * @param before:Time restriction
      * @return Document
      */
-    static  Map<String, String> FilterAudioStrings(Document dexdoc,Document stringdoc, Date after,
+    static ArrayList<LinkedHashMap> FilterAudioStrings(List<String> dexdoc, Document stringdoc, Date after,
                                              Date before, int type) throws ParseException {
         //Initialize Xml Output
         Document output = createDocument();
         List<Node> list = stringdoc.selectNodes("//string");
-        Map<String, String> audionamemap = new HashMap<>();
+        ArrayList<LinkedHashMap>audionamemap;
 
         for (int i = 0; i < list.size(); i++) {
             Element temp = (Element) list.get(i);
@@ -540,58 +549,78 @@ public class utils {
 
             }
         }
-        audionamemap= matchStringstonames(output,dexdoc);
+        audionamemap = matchStringstonames(output, dexdoc);
 
 
         return audionamemap;
 
     }
+
     /**
      * Map the ids from String export to the filenames from dex export
-     *@param dexdoc: audio file
-     *@param output: string file
+     *
+     * @param dexdoc: audio file
+     * @param output: string file
      * @return Document
      */
-    static  Map<String, String> matchStringstonames(Document output,Document dexdoc){
+    static ArrayList<LinkedHashMap> matchStringstonames(Document output, List<String> dexdoc) {
 
-        Map<String, String> stringsMap = new HashMap<>();
-
+        //Map<String, String> Report = new HashMap<>();
+        LinkedHashMap<String,String> Report = new LinkedHashMap<>();
+        LinkedHashMap<String,String> doubleEntries = new LinkedHashMap<>();
         List<Node> list = output.selectNodes("//string");
+        Map<String, String> us = getUniqueStrings(list);
+        ArrayList<LinkedHashMap>Outputs = new ArrayList<>();
 
-        for (int i = 0; i < list.size(); i++) {
-            Element temp = (Element) list.get(i);
-            Node textNode=dexdoc.selectSingleNode("//audio_simple/text_audio_1[@hidden_textid='"+temp.attributeValue("id")+"']");
-            Node textNode2=dexdoc.selectSingleNode("//audio_simple/text_audio_2[@hidden_textid='"+temp.attributeValue("id")+"']");
-            if(textNode!=null){
-               Element filenameElm= (Element)textNode.getParent().selectSingleNode("filename");
-               String filename =filenameElm.getText();
-                if(filename.indexOf('/')>-1)filename =filename.substring(filename.indexOf('/')+1);
-                stringsMap.put(filename,textNode.getText());
-            }else if(textNode2!=null){
-                Element filenameElm= (Element)textNode2.getParent().selectSingleNode("filename");
-                String filename =filenameElm.getText();
-                if(filename.indexOf('/')>-1)filename =filename.substring(filename.indexOf('/')+1);
-                stringsMap.put(filename,textNode2.getText());
+        for (int j = 0; j < dexdoc.size(); j++) {
+            for (Map.Entry<String, String> ent : us.entrySet()) {
+                //for (int i = 0; i < list.size(); i++) {
+                //Element temp = (Element) list.get(i);
+                String srcTxt = Jsoup.parse(ent.getKey()).text();
+
+                if (dexdoc.get(j).length() > 3) {
+                    String text = Jsoup.parse(dexdoc.get(j).substring(dexdoc.get(j).indexOf("###") + 3)).text();
+                    String filename = dexdoc.get(j).substring(0, dexdoc.get(j).indexOf("###")).trim();
+                    //System.out.println(text+"\n");
+                    //System.out.println(srcTxt+"\n\n");
+                    if (text.replace(" ","").contains(srcTxt.replace(" ",""))) {
+                        if(!Report.containsKey(filename))
+                            Report.put(filename,text);
+                        else
+                            //TODO:this should be an arraylist
+                            doubleEntries.put(filename,text);
+                    }
+
+                }
+
             }
-
-
-
         }
+        Outputs.add(Report);
+        Outputs.add(doubleEntries);
 
-        return stringsMap;
+        return Outputs;
     }
-    static void saveaudioReport(Map<String, String> stringMap,String Path) throws IOException {
-        String output="";
+
+    static void saveaudioReport(ArrayList<LinkedHashMap> outputs, String Path) throws IOException {
+        String output = "";
+        String doubleEntriesOutput = "";
         Path path = Paths.get(Path);
-        String  outputPath;
+        String outputPath;
         outputPath = Path.substring(0,
                 Path.indexOf(path.getFileName().toString()));
-        for(Map.Entry<String, String> ent :stringMap.entrySet())
-        {output+=ent.getKey()+"####"+ent.getValue()+"\n";}
-
-        FileUtils.writeStringToFile(new File(outputPath+"AudioTextChangesReport.txt"), output, forName("UTF-8"));
+        LinkedHashMap<String,String> reportStringMap=outputs.get(0);
+        LinkedHashMap<String,String> doubleEntriesStringMap=outputs.get(1);
+        for (Map.Entry<String,String> x: reportStringMap.entrySet()) {
+            output += x.getKey() + "###" + x.getValue() + "\n";
+        }
+        for (Map.Entry<String,String> y: doubleEntriesStringMap.entrySet()) {
+            doubleEntriesOutput += y.getKey() + "###" + y.getValue() + "\n";
+        }
+        FileUtils.writeStringToFile(new File(outputPath + "AudioTextChangesReport.txt"), output, forName("UTF-8"));
+        FileUtils.writeStringToFile(new File(outputPath + "DoubleEntries.txt"), doubleEntriesOutput, forName("UTF-8"));
 
     }
+
 
 }
 
