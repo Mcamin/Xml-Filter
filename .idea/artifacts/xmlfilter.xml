@@ -1,0 +1,21 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="xmlfilter">
+    <output-path>$PROJECT_DIR$/out/artifacts/xmlfilter</output-path>
+    <root id="root">
+      <element id="archive" name="xmlfilter.jar">
+        <element id="module-output" name="xmlfilter" />
+        <element id="library" level="project" name="Maven: com.jfoenix:jfoenix:9.0.8" />
+        <element id="library" level="project" name="Maven: org.openjfx:javafx-base:11.0.2" />
+        <element id="library" level="project" name="Maven: org.openjfx:javafx-base:win:11.0.2" />
+        <element id="library" level="project" name="Maven: org.openjfx:javafx-controls:11.0.2" />
+        <element id="library" level="project" name="Maven: org.openjfx:javafx-controls:win:11.0.2" />
+        <element id="library" level="project" name="Maven: org.openjfx:javafx-fxml:11.0.2" />
+        <element id="library" level="project" name="Maven: org.openjfx:javafx-fxml:win:11.0.2" />
+        <element id="library" level="project" name="Maven: org.openjfx:javafx-graphics:11.0.2" />
+        <element id="library" level="project" name="Maven: org.openjfx:javafx-graphics:win:11.0.2" />
+        <element id="library" level="project" name="Maven: org.openjfx:javafx-media:11.0.2" />
+        <element id="library" level="project" name="Maven: org.openjfx:javafx-media:win:11.0.2" />
+      </element>
+    </root>
+  </artifact>
+</component>
