@@ -13,11 +13,9 @@ import org.apache.commons.io.FileUtils;
 import org.dom4j.*;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -95,13 +93,13 @@ public class FXMLController implements Initializable {
     @FXML
     private Tab AudioFilterTab;
     @FXML
-    private TextField audio_text_path;
+    private TextField stringdb_path;
     @FXML
-    private TextField dex_export_path;
+    private TextField audio_report_path;
     @FXML
-    private JFXButton chooseTxtButton_audio;
+    private JFXButton chooseStringdbButton;
     @FXML
-    private JFXButton chooseDexButton_audio;
+    private JFXButton chooseAudioReportButton;
     @FXML
     private ToggleGroup group_audio;
     @FXML
@@ -149,8 +147,8 @@ public class FXMLController implements Initializable {
                             toDate.setValue(null);
                             toTime.setValue(null);
                             //clear third tab
-                            audio_text_path.setText("");
-                            dex_export_path.setText("");
+                            stringdb_path.setText("");
+                            audio_report_path.setText("");
                             audio_range.setSelected(true);
                             fromTime_audio.setValue(null);
                             fromDate_audio.setValue(null);
@@ -170,8 +168,8 @@ public class FXMLController implements Initializable {
                             filepathComp.setDisable(true);
                             chooseButtonComp.setDisable(true);
                             //clear third tab
-                            audio_text_path.setText("");
-                            dex_export_path.setText("");
+                            stringdb_path.setText("");
+                            audio_report_path.setText("");
                             audio_range.setSelected(true);
                             fromTime_audio.setValue(null);
                             fromDate_audio.setValue(null);
@@ -280,8 +278,8 @@ public class FXMLController implements Initializable {
      * @param event
      */
     @FXML
-    void handlechoosetxtButton_audio(ActionEvent event) {
-        utils.loadOpenDialog(audio_text_path, chooseTxtButton_audio);
+    void handleChooseStringdbButton(ActionEvent event) {
+        utils.loadOpenDialog(stringdb_path, chooseStringdbButton);
     }
 
     /**
@@ -290,8 +288,8 @@ public class FXMLController implements Initializable {
      * @param event
      */
     @FXML
-    void handlechooseDexButton_audio(ActionEvent event) {
-        utils.loadOpenDialog(dex_export_path, chooseDexButton_audio);
+    void handleChooseAudioReportButton(ActionEvent event) {
+        utils.loadOpenDialog(audio_report_path, chooseAudioReportButton);
     }
 
     /**
@@ -302,8 +300,8 @@ public class FXMLController implements Initializable {
     @FXML
     void handleSaveButtonAudio(ActionEvent event) {
         //file Path
-        String text_export_path = audio_text_path.getText();
-        String dx_export_path = dex_export_path.getText();
+        String stringdb_path = this.stringdb_path.getText();
+        String audioReportPath = audio_report_path.getText();
         //Date & Time
         Date from = null;
         Date to = null;
@@ -315,8 +313,8 @@ public class FXMLController implements Initializable {
 
 
 
-        Document text_doc = null;
-        List<String> dex_doc = null;
+        Document StringdbXML = null;
+        List<String> audioReportList = null;
         try {
             from = inputformatter.parse(fromdate.toString() +
                     " " + fromtime.toString());
@@ -333,9 +331,9 @@ public class FXMLController implements Initializable {
 
 
         try {
-            text_doc = utils.loadDocument(text_export_path);
-            File file = new File(dx_export_path);
-            dex_doc  = FileUtils.readLines(file,"UTF-8");
+            StringdbXML = utils.loadDocument(stringdb_path);
+            File file = new File(audioReportPath);
+            audioReportList  = FileUtils.readLines(file,"UTF-8");
         } catch (Exception e) {
             utils.HandleExceptions(e, "Error when loading files");
             e.printStackTrace();
@@ -343,8 +341,8 @@ public class FXMLController implements Initializable {
 
 
         try {
-            utils.saveaudioReport(utils.FilterAudioStrings(dex_doc,text_doc, from, to,
-                   type_audio),text_export_path);
+            utils.saveaudioReport(utils.FilterAudioStrings(audioReportList,StringdbXML, from, to,
+                   type_audio),stringdb_path);
         } catch (Exception e) {
             utils.HandleExceptions(e, "Error when Processing Audio Strings");
             e.printStackTrace();

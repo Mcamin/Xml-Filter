@@ -530,15 +530,16 @@ public class utils {
      * @return Document
      */
     static ArrayList<LinkedHashMap> FilterAudioStrings(List<String> dexdoc, Document stringdoc, Date after,
-                                             Date before, int type) throws ParseException {
+                                             Date before, int type) throws ParseException, IOException {
         //Initialize Xml Output
         Document output = createDocument();
-        List<Node> list = stringdoc.selectNodes("//string");
+        List<Node> list = stringdoc.selectNodes("//string[@audiotext]");
         ArrayList<LinkedHashMap>audionamemap;
 
         for (int i = 0; i < list.size(); i++) {
             Element temp = (Element) list.get(i);
             Date date = null;
+           // TODO:Timsestamps should have this format dd.mm.yyyy hh:mm:ss
             date = formatter.parse(
                     temp.selectSingleNode("timestamps/timestamp").valueOf("@actiondateliteral"));
             if (testDate(after, before, date, type)) {
@@ -549,6 +550,7 @@ public class utils {
 
             }
         }
+        saveOnedocument("./hello.xml",".xml",output);
         audionamemap = matchStringstonames(output, dexdoc);
 
 
@@ -557,13 +559,13 @@ public class utils {
     }
 
     /**
-     * Map the ids from String export to the filenames from dex export
+     * Map the ids from String export to the filenames from audio export
      *
-     * @param dexdoc: audio file
+     * @param audioReportList: audio file
      * @param output: string file
      * @return Document
      */
-    static ArrayList<LinkedHashMap> matchStringstonames(Document output, List<String> dexdoc) {
+    static ArrayList<LinkedHashMap> matchStringstonames(Document output, List<String> audioReportList) {
 
         //Map<String, String> Report = new HashMap<>();
         LinkedHashMap<String,String> Report = new LinkedHashMap<>();
@@ -571,19 +573,22 @@ public class utils {
         List<Node> list = output.selectNodes("//string");
         Map<String, String> us = getUniqueStrings(list);
         ArrayList<LinkedHashMap>Outputs = new ArrayList<>();
+        //Loop over unique Strings
+        for (Map.Entry<String, String> ent : us.entrySet()) {
+            //Loop over the audio report items
+            for (int j = 0; j < audioReportList.size(); j++) {
 
-        for (int j = 0; j < dexdoc.size(); j++) {
-            for (Map.Entry<String, String> ent : us.entrySet()) {
-
+                //get audio text filtred from the xml file
                 String srcTxt = Jsoup.parse(ent.getKey()).text();
-
-                if (dexdoc.get(j).length() > 3) {
-                    String text = Jsoup.parse(dexdoc.get(j).substring(dexdoc.get(j).indexOf("###") + 3)).text();
-                    String filename = dexdoc.get(j).substring(0, dexdoc.get(j).indexOf("###")).trim();
+                //check if audiotext item is not empty
+                //TODO: catch the exception in case there is no ###
+                if (audioReportList.get(j).length() > 3) {
+                    String text = Jsoup.parse(audioReportList.get(j).substring(audioReportList.get(j).indexOf("###") + 3)).text();
+                    String filename = audioReportList.get(j).substring(0, audioReportList.get(j).indexOf("###")).trim();
 
                     //TODO: Test this function
 
-                    if (text.replace(" ","").contains(srcTxt.replace(" ",""))) {
+                    if (text.replace(" ","").equals(srcTxt.replace(" ",""))) {
                         if(!Report.containsKey(filename))
                             Report.put(filename,text);
                         else

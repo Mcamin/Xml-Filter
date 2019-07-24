@@ -6,7 +6,18 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e3dde3a5-428d-48d3-9024-c8e48043ee90" name="Default Changelist" comment="" />
+    <list default="true" id="e3dde3a5-428d-48d3-9024-c8e48043ee90" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/xmlfilter/FXMLController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/xmlfilter/FXMLController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/xmlfilter/utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/xmlfilter/utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/xmlfilter.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/xmlfilter.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fxml/xmlfilter.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fxml/xmlfilter.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/xmlfilter/FXMLController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/xmlfilter/FXMLController$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/xmlfilter/FXMLController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/xmlfilter/FXMLController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/xmlfilter/utils.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/xmlfilter/utils.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/xmlfilter-2.0-jar-with-dependencies.jar" beforeDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -15,13 +26,16 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DefaultGradleProjectSettings">
+    <option name="isMigrated" value="true" />
+  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/xmlfilter/utils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="984">
-              <caret line="109" column="35" lean-forward="true" selection-start-line="109" selection-start-column="35" selection-end-line="109" selection-end-column="35" />
+            <state relative-caret-position="1932">
+              <caret line="603" column="15" selection-start-line="603" selection-start-column="8" selection-end-line="603" selection-end-column="15" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="docComment;method#configureFileChooser#0;class#utils#0" />
@@ -36,13 +50,9 @@
                 <element signature="docComment;method#HandleExceptions#0;class#utils#0" />
                 <element signature="method#HandleExceptions#0;class#utils#0" />
                 <element signature="docComment;method#testDate#0;class#utils#0" />
-                <element signature="e#6201#6211#0" expanded="true" />
-                <element signature="e#13144#13154#0" expanded="true" />
-                <element signature="e#13899#13907#0" expanded="true" />
-                <element signature="e#15866#15874#0" expanded="true" />
+                <element signature="e#15852#15860#0" expanded="true" />
                 <element signature="docComment;method#writeDataInCsv#0;class#utils#0" />
                 <element signature="docComment;method#findDifference#0;class#utils#0" />
-                <element signature="method#saveaudioReport#0;class#utils#0" />
               </folding>
             </state>
           </provider>
@@ -52,17 +62,35 @@
         <entry file="file://$PROJECT_DIR$/src/main/resources/fxml/xmlfilter.fxml">
           <provider editor-type-id="JavaFX-Scene-Builder" />
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1562">
-              <caret line="71" column="50" selection-start-line="71" selection-start-column="45" selection-end-line="71" selection-end-column="50" />
+            <state relative-caret-position="4675">
+              <caret line="275" column="187" selection-start-line="275" selection-start-column="187" selection-end-line="275" selection-end-column="187" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/xmlfilter/FXMLController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-839">
+              <caret line="343" column="27" selection-start-line="343" selection-start-column="18" selection-end-line="343" selection-end-column="33" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/xmlfilter/FXMLController.java">
+        <entry file="jar://C:/Program Files/AdoptOpenJDK/jdk-11.0.3.7-hotspot/lib/src.zip!/java.base/java/text/DateFormat.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="686">
-              <caret line="475" column="55" selection-start-line="475" selection-start-column="30" selection-end-line="475" selection-end-column="55" />
+            <state relative-caret-position="249">
+              <caret line="394" column="18" selection-start-line="394" selection-start-column="18" selection-end-line="394" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1326">
+              <caret line="78" column="32" selection-start-line="78" selection-start-column="25" selection-end-line="78" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -78,7 +106,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>cancelBtn</find>
       <find>initialize</find>
       <find>skippedIDs</find>
       <find>Sy</find>
@@ -98,6 +125,17 @@
       <find>testda</find>
       <find>trim</find>
       <find>changei</find>
+      <find>filter</find>
+      <find>dex</find>
+      <find>dex_export_path</find>
+      <find>FilterAudioStrings</find>
+      <find>matchStringstonames</find>
+      <find>audiofilter</find>
+      <find>save</find>
+      <find>audio</find>
+      <find>saveone</find>
+      <find>saveOnedocument</find>
+      <find>Textpa</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -203,10 +241,10 @@
     </treeState>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="5752" />
-    <option name="y" value="-8" />
-    <option name="width" value="1096" />
-    <option name="height" value="1896" />
+    <option name="x" value="-3852" />
+    <option name="y" value="-12" />
+    <option name="width" value="3866" />
+    <option name="height" value="2106" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -214,8 +252,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -239,21 +277,6 @@
               <item name="XmlFilter" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="XMLFilter" type="b2602c69:ProjectViewProjectNode" />
-              <item name="XmlFilter" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="xmlfilter" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="XMLFilter" type="b2602c69:ProjectViewProjectNode" />
-              <item name="XmlFilter" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -264,19 +287,6 @@
               <item name="resources" type="462c0819:PsiDirectoryNode" />
               <item name="fxml" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="XMLFilter" type="b2602c69:ProjectViewProjectNode" />
-              <item name="XmlFilter" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="img" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="XMLFilter" type="b2602c69:ProjectViewProjectNode" />
-              <item name="XmlFilter" type="462c0819:PsiDirectoryNode" />
-              <item name="target" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -284,6 +294,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1558695680084" />
@@ -291,6 +302,7 @@
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -454,6 +466,7 @@
       <method v="2" />
     </configuration>
     <configuration default="true" type="TestNG">
+      <option name="TEST_OBJECT" value="CLASS" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <properties />
       <listeners />
@@ -488,6 +501,10 @@
       <option name="presentableId" value="Default" />
       <updated>1548416218945</updated>
       <workItem from="1558688662683" duration="4308000" />
+      <workItem from="1563960226157" duration="2759000" />
+      <workItem from="1563971623907" duration="1781000" />
+      <workItem from="1563973584222" duration="58000" />
+      <workItem from="1563973968603" duration="5003000" />
     </task>
     <task id="LOCAL-00001" summary="Update to JDK 11 /JAVAFX11">
       <created>1548421135114</created>
@@ -584,7 +601,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="4308000" />
+    <option name="totallyTimeSpent" value="13909000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -596,9 +613,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="5752" y="-8" width="1096" height="1896" extended-state="6" />
+    <frame x="-2568" y="-8" width="2576" height="1416" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4982699" visible="true" weight="0.2934363" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4982699" visible="true" weight="0.20151034" />
       <window_info id="Designer" order="1" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Capture Tool" order="3" />
@@ -606,12 +624,10 @@
       <window_info id="Learn" order="5" />
       <window_info id="Structure" order="6" sideWeight="0.5017301" side_tool="true" weight="0.28074434" />
       <window_info id="Favorites" order="7" side_tool="true" />
-      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Database Changes" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49946696" weight="0.47872943" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39943343" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32969603" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49946696" visible="true" weight="0.29072487" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39828527" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32827735" />
@@ -619,7 +635,8 @@
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.34988454" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50053304" side_tool="true" weight="0.6132178" />
       <window_info anchor="bottom" id="Messages" order="10" weight="0.3298731" />
-      <window_info anchor="right" id="Database" />
+      <window_info anchor="bottom" id="Docker" order="11" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" order="12" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -628,6 +645,7 @@
       <window_info anchor="right" id="Theme Preview" order="5" />
       <window_info anchor="right" id="Capture Analysis" order="6" />
       <window_info anchor="right" id="Palette&#9;" order="7" />
+      <window_info anchor="right" id="Database" order="8" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -647,6 +665,72 @@
     <MESSAGE value="Fixed Audio Text Filtering" />
     <option name="LAST_COMMIT_MESSAGE" value="Fixed Audio Text Filtering" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/xmlfilter/FXMLController.java</url>
+          <line>343</line>
+          <properties />
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/xmlfilter/utils.java</url>
+          <line>544</line>
+          <properties />
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/xmlfilter/utils.java</url>
+          <line>546</line>
+          <properties />
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/xmlfilter/utils.java</url>
+          <line>547</line>
+          <properties />
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/xmlfilter/utils.java</url>
+          <line>578</line>
+          <properties />
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/xmlfilter/utils.java</url>
+          <line>585</line>
+          <properties />
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/xmlfilter/utils.java</url>
+          <line>586</line>
+          <properties />
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/xmlfilter/utils.java</url>
+          <line>581</line>
+          <properties />
+          <option name="timeStamp" value="27" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/xmlfilter/utils.java</url>
+          <line>590</line>
+          <properties />
+          <option name="timeStamp" value="28" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/xmlfilter/utils.java</url>
+          <line>595</line>
+          <properties />
+          <option name="timeStamp" value="30" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
     <option name="FILTER_TARGETS" value="false" />
@@ -659,13 +743,6 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/org/xmlfilter/DOM.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/org/xmlfilter/StringElem.java" />
     <entry file="jar://C:/Program Files/Java/Openjdk-11.0.2/lib/src.zip!/java.base/java/lang/String.java" />
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="614">
-          <caret line="81" column="21" selection-start-line="81" selection-start-column="21" selection-end-line="81" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/xmlfilter/MainApp.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="220">
@@ -692,22 +769,29 @@
     <entry file="file://$PROJECT_DIR$/src/main/resources/fxml/xmlfilter.fxml">
       <provider editor-type-id="JavaFX-Scene-Builder" />
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1562">
-          <caret line="71" column="50" selection-start-line="71" selection-start-column="45" selection-end-line="71" selection-end-column="50" />
+        <state relative-caret-position="4675">
+          <caret line="275" column="187" selection-start-line="275" selection-start-column="187" selection-end-line="275" selection-end-column="187" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/xmlfilter/FXMLController.java">
+    <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="686">
-          <caret line="475" column="55" selection-start-line="475" selection-start-column="30" selection-end-line="475" selection-end-column="55" />
+        <state relative-caret-position="1326">
+          <caret line="78" column="32" selection-start-line="78" selection-start-column="25" selection-end-line="78" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/AdoptOpenJDK/jdk-11.0.3.7-hotspot/lib/src.zip!/java.base/java/text/DateFormat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="249">
+          <caret line="394" column="18" selection-start-line="394" selection-start-column="18" selection-end-line="394" selection-end-column="18" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/xmlfilter/utils.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="984">
-          <caret line="109" column="35" lean-forward="true" selection-start-line="109" selection-start-column="35" selection-end-line="109" selection-end-column="35" />
+        <state relative-caret-position="1932">
+          <caret line="603" column="15" selection-start-line="603" selection-start-column="8" selection-end-line="603" selection-end-column="15" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="docComment;method#configureFileChooser#0;class#utils#0" />
@@ -722,14 +806,17 @@
             <element signature="docComment;method#HandleExceptions#0;class#utils#0" />
             <element signature="method#HandleExceptions#0;class#utils#0" />
             <element signature="docComment;method#testDate#0;class#utils#0" />
-            <element signature="e#6201#6211#0" expanded="true" />
-            <element signature="e#13144#13154#0" expanded="true" />
-            <element signature="e#13899#13907#0" expanded="true" />
-            <element signature="e#15866#15874#0" expanded="true" />
+            <element signature="e#15852#15860#0" expanded="true" />
             <element signature="docComment;method#writeDataInCsv#0;class#utils#0" />
             <element signature="docComment;method#findDifference#0;class#utils#0" />
-            <element signature="method#saveaudioReport#0;class#utils#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/xmlfilter/FXMLController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-839">
+          <caret line="343" column="27" selection-start-line="343" selection-start-column="18" selection-end-line="343" selection-end-column="33" />
         </state>
       </provider>
     </entry>
@@ -800,6 +887,17 @@
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
           <last-edited>Maven: com.jfoenix:jfoenix:9.0.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ScopeChooserConfigurable.UI">
+        <settings>
           <splitter-proportions>
             <option name="proportions">
               <list>

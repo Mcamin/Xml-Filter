@@ -20,7 +20,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox fillWidth="false" maxHeight="400.0" maxWidth="506.0" minHeight="320.0" minWidth="506.0" prefHeight="400.0" prefWidth="506.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.xmlfilter.FXMLController">
+<VBox fillWidth="false" maxHeight="400.0" maxWidth="506.0" minHeight="320.0" minWidth="506.0" prefHeight="400.0" prefWidth="506.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.xmlfilter.FXMLController">
     <children>
         <TabPane fx:id="TabPane" prefHeight="400.0" prefWidth="506.0" tabClosingPolicy="UNAVAILABLE">
             <tabs>
@@ -268,13 +268,13 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <Label prefHeight="20.0" prefWidth="81.0" text="Text Export:">
+                              <Label prefHeight="20.0" prefWidth="81.0" text="StringDb :">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <JFXButton fx:id="chooseTxtButton_audio" onAction="#handlechoosetxtButton_audio" prefHeight="32.0" prefWidth="82.0" style="-fx-background-color: #afafaf;" text="Choose" textFill="WHITE" GridPane.columnIndex="2" />
-                              <TextField fx:id="audio_text_path" prefHeight="26.0" prefWidth="260.0" GridPane.columnIndex="1" />
+                              <JFXButton fx:id="chooseStringdbButton" onAction="#handleChooseStringdbButton" prefHeight="32.0" prefWidth="82.0" style="-fx-background-color: #afafaf;" text="Choose" textFill="WHITE" GridPane.columnIndex="2" />
+                              <TextField fx:id="stringdb_path" prefHeight="26.0" prefWidth="260.0" GridPane.columnIndex="1" />
                            </children>
                         </GridPane>
                         <GridPane layoutX="21.0" layoutY="160.0" prefHeight="85.0" prefWidth="232.0">
@@ -309,13 +309,13 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <Label prefHeight="20.0" prefWidth="81.0" text="Au-Report:">
+                              <Label prefHeight="20.0" prefWidth="81.0" text="Aud-Report :">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <JFXButton fx:id="chooseDexButton_audio" onAction="#handlechooseDexButton_audio" prefHeight="32.0" prefWidth="82.0" style="-fx-background-color: #afafaf;" text="Choose" textFill="WHITE" GridPane.columnIndex="2" />
-                              <TextField fx:id="dex_export_path" prefHeight="26.0" prefWidth="260.0" GridPane.columnIndex="1" />
+                              <JFXButton fx:id="chooseAudioReportButton" onAction="#handleChooseAudioReportButton" prefHeight="32.0" prefWidth="82.0" style="-fx-background-color: #afafaf;" text="Choose" textFill="WHITE" GridPane.columnIndex="2" />
+                              <TextField fx:id="audio_report_path" prefHeight="26.0" prefWidth="260.0" GridPane.columnIndex="1" />
                            </children>
                         </GridPane>
                      </children>
